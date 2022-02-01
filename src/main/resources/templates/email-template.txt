@@ -1,0 +1,30 @@
+<html>
+
+<head></head>
+
+<body>
+<div style="width:500px;">
+    <div style="background: red; height:100px; width:100%;">
+        <div style="float: left;">
+
+        </div>
+        <div style="float: right; font-size:30px; color:white;">
+            <h4>CrypKart</h4>
+        </div>
+    </div>
+    <div style="width:100%; background: white;">
+        <div style="text-align: center; width: 100%;">
+            <h3>${subject}</h3>
+        </div>
+        <div>
+            <p>Dear ${firstName} ${lastName},</p>
+            <p>Sending Email using Spring 4 with <b>FreeMarker template !!!</b></p>
+            <p>Thanks</p>
+            <p>${signature}</p>
+            <p>${location}</p>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

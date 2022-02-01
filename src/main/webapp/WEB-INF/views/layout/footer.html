@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<div th:fragment="htmlfooterbase" class="container-fluid footer footer-top">
+    <div class="row">
+        <div class="container main-container-home">
+            <div class="col-md-3">
+                <h3 th:utext="#{Layout.label.footer.pages}">Pages</h3>
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/cms/faq}" th:utext="#{Layout.label.footer.faq}"></a></li>
+                    <li><a th:href="@{/cms/terms}" th:utext="#{Layout.label.footer.terms.service}"></a></li>
+                    <li><a th:href="@{/cms/privacy}" th:utext="#{Layout.label.footer.privacy.policy}"></a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h3 th:utext="#{Layout.label.footer.languages}"></h3>
+                <ul class="list-unstyled">
+                    <li><a href="?&lang=en" th:utext="#{Layout.label.footer.lang.en}"></a></li>
+                    <li><a href="?&lang=fr" th:utext="#{Layout.label.footer.lang.fr}"></a></li>
+                </ul>
+            </div>
+            <div class="col-md-5">
+                <h3 th:utext="#{Layout.label.footer.follow.us}"></h3>
+                Twitter or Facebook code here.
+            </div>
+        </div>
+
+    </div>
+</div>

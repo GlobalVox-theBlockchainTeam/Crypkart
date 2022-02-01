@@ -1,0 +1,11 @@
+INSERT INTO `admin_config` (`id`, `created_at`, `status`, `updated_at`, `config_name`, `record_per_page`, `data_table`, `upload_path`, `user_id`) VALUES
+(17, '2018-03-20 19:31:43', b'1', NULL, 'Test123', 5, 'cms_master', '', 37),
+(18, '2018-03-28 12:38:24', b'1', '2018-04-04 09:22:46', 'General_Config', 0, 'General', '', 4),
+(20, '2018-04-02 10:24:20', b'1', '2018-04-02 12:39:15', 'Advertise_Parent', 5, 'advertisement_master', '', 4),
+(21, '2018-04-02 11:33:27', b'1', '2018-04-06 04:15:23', 'Trade_Master_Parent', 5, 'trade_master', '', 37),
+(22, '2018-04-02 11:34:18', b'1', NULL, 'Forum_Topic_Parent', 2, 'forum_topics', '', 4),
+(23, '2018-04-02 18:43:52', b'1', NULL, 'Reported_User_Parent', 1, 'reported_user', '', 4),
+(24, '2018-04-02 18:49:48', b'1', NULL, 'Feedback_Parent', 1, 'user_feedback', '', 4),
+(25, '2018-04-03 13:37:26', b'1', NULL, 'Zone_Parent', 0, 'zone', '', 4),
+(26, '2018-04-11 13:18:08', b'1', '2018-04-11 13:33:03', 'Internal_Transfer', 5, 'bitcoin_internal_transfer', '', 4),
+(27, '2018-04-19 06:12:03', b'1', '2018-04-19 06:13:12', 'Direct_Transactions', 2, 'direct_transactions', '', 37);

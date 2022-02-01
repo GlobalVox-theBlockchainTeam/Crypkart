@@ -1,0 +1,174 @@
+<!--
+  ~ Copyright (c) 8/3/18 11:14 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:fragment="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+
+    <div class="row">
+
+
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-12 wallet-left">
+            <!--<div th:include="layout/wallet/qrcode :: barcode" class="panel panel-default"></div>-->
+            <div th:include="layout/wallet/menu :: walletMenu"></div>
+        </div>
+        <div class="col-md-12 wallet-right">
+            <div class="">
+                <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+            </div>
+            <div class="">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+
+                        <h4 class="head"><!--<a th:href="@{/section/} + ${topic.section.id}"
+                                            th:text="${topic.section.name}"></a>-->
+                            <span th:text="${topic.title}"></span></h4>
+                        <br/><span th:utext="#{Forum.topic.label.by}"></span> <a
+                            th:href="@{/user/profile/} + ${topic.user.username}"
+                            th:text="'@' + ${topic.user.username}"></a> : <span
+                            th:text="${topic.createdAt} "></span>
+
+                    </div>
+                    <div class="panel-body">
+                        <!-- L -->
+
+                        <!-- R -->
+                        <div class="col-md-12">
+
+
+                            <p th:utext="${#strings.replace(topic.content,T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
+                            <div class="divider"></div>
+                            <hr/>
+                            <!--<h6 th:text="${topic.user.footer}" class="blue-grey-text lighten-3-text"></h6>-->
+                        </div>
+
+
+                        <div class="" th:if="${#authentication.name} eq ${topic.user.username}">
+                            <div class="col-md-12 ">
+                                <a class="delete pull-right no-loading"
+                                   th:href="@{'/forum/topic/admin/topic/delete/' + ${@pathVariableEnc.encrypt(topic.id)}}" title=""
+                                   data-original-title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- POSTS -->
+            <div class="col-md-12">
+            </div>
+            <div class="">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Recent Posts
+                    </div>
+                    <div class="panel-body" style="max-height: 500px; overflow: auto;">
+
+                        <div class=" " th:each="post : ${posts}" th:id="${post.id}">
+                            <!-- L -->
+                            <div class="col-md-12  center">
+                                <a th:href="@{/user/} + ${post.user.username}"
+                                   th:text="'@' + ${post.user.username}"></a>
+                                <div th:text="${post.content}"></div>
+                                <br/>
+                                <small><span class="small" th:text="${post.createdAt}"></span></small>
+                                <hr/>
+                            </div>
+
+
+                            <div class="col-md-12" th:if="${#authentication.name} eq ${post.user.username}">
+
+                                <a class="pull-right delete no-loading" th:href="@{'/forum/admin/post/delete/' + ${@pathVariableEnc.encrypt(post.id)}}"
+                                   title=""
+                                   data-original-title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                <!--<span class="pull-right">&nbsp;&nbsp;</span>
+                                <a class="pull-right" th:href="@{/forum/post/edit/} + ${post.id}" title=""
+                                   data-original-title="Edit">
+                                    <i class="fa fa-pencil"></i>
+                                </a>-->
+                            </div>
+
+                            <hr/>
+                            <hr/>
+                        </div>
+                        <div th:if="${posts==null || #lists.size(posts)==0}" th:utext="#{Forum.topic.label.no.topic}">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION REPLY -->
+
+            <div class="col-md-12">
+            </div>
+            <div class="">
+                <div class="panel panel-default">
+                    <div class="panel-heading" th:utext="#{Forum.topic.label.create.post}">
+
+                    </div>
+                    <div class="panel-body">
+                        <div class=" " sec:authorize="isAuthenticated()">
+                            <div class="col-md-12">
+                                <form th:action="@{/forum/topic/} + ${topic.id}" method="POST" th:object="${newPost}">
+                                    <div class="col-md-12">
+                                        <div class="input-field col-md-12">
+                                            <textarea th:field="*{content}" id="content" name="content"
+                                                      class="materialize-textarea cleditor">
+
+                                            </textarea>
+
+                                            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"
+                                               class="label label-danger">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <hr/>
+                                        <div class="pull-right">
+                                            <button class="btn btn-warning" type="submit" name="action"
+                                                    th:utext="#{Forum.topic.label.submit}">
+                                            </button>
+                                            <a class="btn btn-primary" th:href="@{/forum/home}"
+                                               th:utext="#{Forum.topic.label.back}"></a>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+</body>

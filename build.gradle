@@ -1,0 +1,180 @@
+/*
+ * Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+ * Author : Anand Panchal
+ * Author Email : anand4686@gmail.com
+ */
+
+group 'com.gradle'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://git.captcha.com/maven.git/blob_plain/HEAD:/"
+    }
+}
+
+dependencies {
+
+    providedCompile 'javax:javaee-web-api:7.0'
+    compile(
+            /*
+            sprint core
+             */
+            'org.springframework:spring-webmvc:4.3.6.RELEASE',
+            'org.springframework:spring-tx:4.3.6.RELEASE',
+            'org.springframework:spring-orm:4.3.6.RELEASE',
+            'org.springframework:spring-expression:4.3.6.RELEASE',
+            'org.springframework:spring-context:4.3.6.RELEASE',
+            'org.springframework:spring-context-support:4.3.6.RELEASE',
+
+            'org.springframework:spring-websocket:4.3.6.RELEASE',
+            'org.springframework:spring-messaging:4.3.6.RELEASE',
+            /*'org.springframework.data:spring-data-commons-core:1.4.1.RELEASE',
+            'org.springframework.data:spring-data-jpa:1.11.8.RELEASE',*/
+
+            'io.github.jpenren:thymeleaf-spring-data-dialect:3.3.1',
+
+            /*
+            spring test
+             */
+            'org.springframework:spring-test:4.3.6.RELEASE',
+
+            /*
+            spring security
+             */
+            'org.springframework.security:spring-security-core:4.2.3.RELEASE',
+            'org.springframework.security:spring-security-web:4.2.3.RELEASE',
+            'org.springframework.security:spring-security-config:4.2.3.RELEASE',
+
+            /*
+            aspect j AOP
+             */
+            'org.aspectj:aspectjrt:1.7.4',
+            'org.aspectj:aspectjtools:1.7.4',
+
+            /*
+            thymeleaf template engine
+             */
+
+            'org.thymeleaf:thymeleaf:3.0.1.RELEASE',
+            'org.thymeleaf:thymeleaf-spring4:3.0.1.RELEASE',
+            'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:1.2.9',
+            'org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.1.RELEASE',
+
+            /*
+            logs
+             */
+            'log4j:log4j:1.2.17',
+
+            'org.slf4j:slf4j-api:1.7.16',
+            'org.slf4j:slf4j-simple:1.7.16',
+            /*'org.apache.logging.log4j:log4j-api:2.5',
+            'org.apache.logging.log4j:log4j-core:2.5',*/
+
+            'commons-fileupload:commons-fileupload:1.3.3',
+
+            /*
+            Hibernate db
+             */
+            'org.hibernate:hibernate-core:4.3.6.Final',
+            'org.hibernate:hibernate-validator:5.1.3.Final',
+            'org.hibernate:hibernate-entitymanager:4.3.6.Final',
+
+            /*
+            db properties
+             */
+            'mysql:mysql-connector-java:5.1.31',
+            'commons-dbcp:commons-dbcp:1.4',
+            'org.jadira.usertype:usertype.core:3.0.0.CR1',
+            'joda-time:joda-time:2.3',
+
+            /*
+            java servlet
+             */
+            'javax.servlet:javax.servlet-api:3.1.0',
+            'org.javassist:javassist:3.15.0-GA',
+
+            'javax.servlet.jsp:javax.servlet.jsp-api:2.3.1',
+            'javax.servlet:jstl:1.2',
+
+            /*
+            Unit testing
+             */
+            'org.testng:testng:6.9.4',
+            'org.mockito:mockito-all:1.10.19',
+            'dbunit:dbunit:2.2',
+
+            'com.h2database:h2:1.4.187',
+
+            /*
+            Bitcoin plugin
+             */
+            'org.bitcoinj:bitcoinj-core:0.14.5',
+            'org.bitcoinj:bitcoinj-examples:0.14.5',
+            'com.google.zxing:core:3.3.2',
+            'com.google.zxing:javase:3.3.2',
+
+
+            /*
+            Captcha
+             */
+            'net.tanesha.recaptcha4j:recaptcha4j:0.0.7',
+
+            'com.fasterxml.jackson.core:jackson-databind:2.8.1',
+            'com.fasterxml.jackson.core:jackson-annotations:2.8.1',
+            'com.fasterxml.jackson.core:jackson-core:2.8.1',
+
+
+
+            'org.springframework.security.oauth:spring-security-oauth2:2.0.2.RELEASE',
+            'org.springframework.security:spring-security-taglibs:4.2.3.RELEASE',
+
+
+            /*
+            Email support
+             */
+            'javax.mail:javax.mail-api:1.5.5',
+            'javax.mail:mail:1.4.7',
+
+            'commons-fileupload:commons-fileupload:1.3.1',
+            'commons-io:commons-io:2.4',
+
+
+
+            /*
+            * SMS Verification
+            * */
+            'com.twilio.sdk:twilio-java-sdk:3.4.5',
+
+            /*Gogole authentication*/
+            'com.warrenstrange:googleauth:1.1.2',
+
+            'com.opencsv:opencsv:4.1',
+
+
+            /* Active mq*/
+            'org.apache.activemq:activemq-spring:5.13.3',
+            'org.springframework:spring-jms:4.3.6.RELEASE',
+
+            'org.jsoup:jsoup:1.11.2',
+
+            'com.warrenstrange:googleauth:1.1.2',
+
+
+            /* Spring velocity template for email*/
+            /*'org.apache.velocity:velocity:1.7',
+            'org.apache.velocity:velocity-tools:2.0',
+            'org.freemarker:freemarker:2.3.23'*/
+    )
+
+}
+war{
+    archiveName 'GDL.war'
+}

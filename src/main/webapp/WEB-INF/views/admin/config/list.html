@@ -1,0 +1,135 @@
+<!--
+  ~ Copyright (c) 12/3/18 10:55 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/admin/head :: adminhead">
+</head>
+<body>
+<div class="navbar navbar-inverse" role="navigation" th:include="layout/admin/header :: adminheader">
+</div>
+
+<div class="template-page-wrapper">
+    <div th:include="layout/admin/menu :: adminmenu" class="navbar-collapse collapse templatemo-sidebar"></div>
+    <div class="templatemo-content-wrapper">
+
+        <div class="templatemo-content">
+            <ol class="breadcrumb">
+                <li><a href="./">Administrator</li>
+                <li class="active">Config</li>
+            </ol>
+            <div th:replace="layout/admin/globalmessages :: admin-global-messages">(global-messages)</div>
+            <div><a th:href="@{/admin/config/form}" class="btn btn-primary">Create</a></div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Configurations
+                </div>
+                <div class="panel-body">
+                    <div id="admin-aconfig-ajax-div" class="ajax-div-paranet">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th width="5%">ID</th>
+                                <th width="15%">Type</th>
+                                <th width="15%">Config Name</th>
+                                <th width="10%">Status</th>
+                                <th width="5%">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr th:each="config : ${adminConfigList}">
+                                <td th:text="${configStat.index+1}"></td>
+                                <td th:text="${config.type}"></td>
+                                <td th:text="${config.configName}"></td>
+
+
+                                <td th:if="${config.status==false}"><span class="label label-danger">Inactive</span>
+                                </td>
+                                <td th:if="${config.status==true}"><span class="label label-success">Active</span></td>
+                                <td>
+                                    <a th:href="@{'/admin/config/edit/form/' + ${config.id}}"><i
+                                            class="fa fa-pencil"></i></a>
+                                    <a class="delete" th:href="@{'/admin/config/delete/' + ${config.id}}"><i
+                                            class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div th:include="layout/pagingajax :: pagingnavigation" th:with="pagging=${pagging1},ajaxDivId='admin-aconfig-ajax-div'" >
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div><a th:href="@{/admin/config/value/form}" class="btn btn-primary">Create</a></div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Configurations Values
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <div id="admin-config-ajax-div" class="ajax-div-paranet">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th width="5%">ID</th>
+                                    <th width="15%">Name</th>
+                                    <th width="15%">Admin Config</th>
+                                    <th width="15%">Value</th>
+                                    <th width="10%">Status</th>
+                                    <th width="5%">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr th:each="configValue : ${adminConfigValuesList}">
+                                    <td th:text="${configValueStat.index+1}"></td>
+                                    <td th:text="${configValue.name}"></td>
+                                    <td th:text="${configValue.adminConfig.configName}"></td>
+                                    <td th:text="${configValue.value}"></td>
+
+
+                                    <td th:if="${configValue.status==false}"><span
+                                            class="label label-danger">Inactive</span>
+                                    </td>
+                                    <td th:if="${configValue.status==true}"><span
+                                            class="label label-success">Active</span>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{'/admin/config/value/edit/form/' + ${configValue.id}}"><i
+                                                class="fa fa-pencil"></i></a>
+                                        <a class="delete"
+                                           th:href="@{'/admin/config/value/delete/' + ${configValue.id}}"><i
+                                                class="fa fa-times"></i></a>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <div th:include="layout/pagingajax :: pagingnavigation"
+                                 th:with="pagging=${pagging},ajaxDivId='admin-config-ajax-div'">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="templatemo-footer" th:include="layout/admin/footer :: adminfooter"></footer>
+</div>
+<div th:include="layout/admin/afterfooter :: adminafterfooter">
+
+</div>
+<form method="post">
+
+</form>
+</body>

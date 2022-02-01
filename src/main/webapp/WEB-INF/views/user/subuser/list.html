@@ -1,0 +1,77 @@
+<!--
+  ~ Copyright (c) 25/4/18 11:18 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:fragment="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-12 wallet-left">
+            <!--<div th:include="layout/wallet/qrcode :: barcode" class="panel panel-default"></div>-->
+            <div th:include="layout/wallet/menu :: walletMenu"></div>
+        </div>
+        <div class="col-md-12 wallet-right">
+            <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span th:text="#{User.subuser.label.subusers.list}"></span>
+                    <div class="pull-right">
+                        <a th:href="@{/subuser/create}" class="btn btn-success "
+                           th:text="#{User.subuser.label.create}"></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="5%" th:text="'#'"></th>
+                            <th width="5%" th:text="#{User.subuser.label.username}"></th>
+                            <th width="5%" th:text="#{User.subuser.label.name}"></th>
+                            <th width="5%" th:text="#{User.subuser.label.email}"></th>
+                            <th width="5%" th:text="#{User.subuser.label.action}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="sUser : ${subUsers}">
+                            <td th:text="${'#'+ (sUserStat.index+1)}"></td>
+                            <td><span th:id="'td-column-username'+${sUserStat.index}" th:text="${sUser.username}"></span></td>
+                            <td><span th:id="'td-column-name'+${sUserStat.index}" th:text="${sUser.firstName}"></span></td>
+                            <td><span th:id="'td-column-email'+${sUserStat.index}" th:text="${sUser.email}"></span></td>
+                            <td>
+                                <a class="sub-user-edit no-loading" th:attr="data-enabled=${sUser.enabled},data-index=${sUserStat.index},data-preid='td-column-',data-id=${@pathVariableEnc.encrypt(sUser.id)},data-url=@{/subuser/edit},data-email=${sUser.email},data-username=${sUser.username},data-name=${sUser.firstName}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div  class="justify" th:include="layout/pagingwithrecords :: pagingnavigation">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+</body>

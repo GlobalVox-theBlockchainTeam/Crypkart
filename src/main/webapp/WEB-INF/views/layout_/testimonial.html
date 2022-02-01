@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!-- Testimionals Slider-->
+<div class="container-fluid testimionals" th:fragment="testimonialfooter" style="background:url(assets/images/testbg.png);">
+    <div class="row">
+        <div class="container main-container">
+            <div class="col-lg-12">
+                <div id="testio" class="owl-carousel owl-template">
+                    <!--Slides-->
+                    <!-- while($fb = $queryFeedbacks->fetch_assoc()) {
+                              $adid = tradeinfo($fb['trade_id'],"ad_id");
+                              $adpaymentmethod = adinfo($adid,"payment_method");
+                              $adtype = adinfo($adid,"type");
+                              if($adtype == "buy") {
+                                  $pm = str_ireplace(" ","-",$adpaymentmethod);
+                                  $adlink = $settings['url']."ad/Bitcoin-to-".$pm."/".$adid;
+                              } elseif($adtype == "sell") {
+                                  $pm = str_ireplace(" ","-",$adpaymentmethod);
+                                  $adlink = $settings['url']."ad/".$pm."-to-Bitcoin/".$adid;
+                              } else { }
+                      -->
+                    <div class="item">
+
+                        <div class="info">
+                            <h5><a href="{$settings['url']}user/{idinfo($fb['author'],username)}">{idinfo($fb['author'],"username")</a>
+                                <i class="fa fa-angle-right"></i>
+                                <a href="{$settings['url']}user/{idinfo($fb['uid'],username)}">{idinfo($fb['uid'],"username")}</a>
+                            </h5>
+                            <span>{$lang['for_advertisement']}<a href="{$adlink}">#{$adid}</a></span>
+                            <p>{$fb['comment']}</p>
+                        </div>
+                    </div>
+                    <!-- } -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

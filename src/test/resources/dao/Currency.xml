@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<dataset>
+    <Currency id="1" currency_code="INR" currency_name="Indian Rupee"  />
+    <Currency id="2" currency_code="USD"  currency_name="US Dollars" />
+</dataset>

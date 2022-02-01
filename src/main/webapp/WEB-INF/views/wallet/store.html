@@ -1,0 +1,75 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase" ></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard ">
+    <div class="row blue-banner">
+        <div class="container main-container">
+            <div class="col-md-4">
+                <span style="color:#fff;font-size:35px;font-weight:bold;" th:utext="#{Wallet.create.label.available.bal}"></span><br/>
+                <span style="color:#fff;font-size:25px;"><i class="fa fa-bitcoin"></i> 0.0</span>
+            </div>
+            <div class="col-md-4">
+                <span style="color:#fff;font-size:35px;font-weight:bold;" th:utext="#{Wallet.create.label.pending.bal}"></span><br/>
+                <span style="color:#fff;font-size:25px;"><i class="fa fa-bitcoin"></i>0.0</span>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4><?php echo $lang['deposit_receive_bitcoins']; ?></h4>
+                    <p><?php echo $lang['d_r_bitcoins']; ?></p>
+                    <center>
+                        <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=&choe=UTF-8"><br/>
+                        <input type="text" class="form-control text-center" value=""  onclick="this.select();">
+                    </center>
+                </div>
+            </div>
+
+            <div th:include="layout/wallet/menu :: walletMenu" class="list-group"></div>
+
+        </div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4 th:utext="#{Wallet.create.label.wallet.created}"></h4>
+                    <span th:utext="#{Wallet.create.label.wallet.details.info}" th:remove="tag"></span>
+                    <div class="alert alert-info" >
+                        Error
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+</body>

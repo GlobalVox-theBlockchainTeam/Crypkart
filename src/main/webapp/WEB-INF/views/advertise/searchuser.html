@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 21/3/18 3:26 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:fragment="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+<div class="jobs_filters ">
+    <div class="container">
+        <!--<div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>-->
+        <div th:include="layout/search :: topsearch" th:remove="tag">
+        </div>
+    </div>
+</div>
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+
+    <div class="row">
+        <div class="jobs-result col-md-12">
+            <!--Search Result 01-->
+            <div class="jobs list-style2" th:if="${!advertisementList.isEmpty()}">
+                <!--<th:block th:each="ad : ${advertisementList}">-->
+                <h3>Advertise from <span th:text="${advertiser.username}"></span></h3>
+                <hr/>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="20%">
+                            <span id="advertiser-label" onclick="findByAdvertiser('advertiser-form');">Advertiser</span>
+                            <form th:object="${searchForm}" th:method="'POST'"
+                                  th:action="@{/advertise/search/advertiser}" style="display: none;"
+                                  id="advertiser-form">
+                                <input type="text" id="advertiser" name="advertiser">
+                            </form>
+                        </th>
+                        <th>
+                            BTC Rate
+                        </th>
+                        <th>
+                            Limit
+                        </th>
+                        <th>
+                            Pay Method
+                        </th>
+                        <!--<th th:text="${button}" style="text-align: right">-->
+                        <th>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="ad : ${advertisementList}">
+                        <tr th:if="${verify.canTrade(ad, user)}">
+                            <td th:text="${ad.user.username}"></td>
+                            <td th:text="${ad.currency.currencyCode} + '  ' +${ad.btcRate}+ ' / BTC'"></td>
+                            <td th:utext="'Limits: '+${ad.minLimit}+' - '+${ad.maxLimit}+' '+ ${ad.currency.currencyCode}"></td>
+                            <td th:text="${ad.paymentType.paymentTypeName}"></td>
+                            <td style="padding-right:0;">
+                                <a class="btn btn-primary btn-sm pull-right"
+                                   th:href="@{'/trade/' + ${@pathVariableEnc.encrypt(ad.id)}}"
+                                   th:if="${#strings.contains(ad.adType.value,'Sell')}"
+                                   th:text="Buy"
+                                ></a>
+                                <a class="btn btn-primary btn-sm pull-right"
+                                   th:href="@{'/trade/' + ${@pathVariableEnc.encrypt(ad.id)}}"
+                                   th:if="${#strings.contains(ad.adType.value,'Buy')}"
+                                   th:text="Sell"
+                                ></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+
+
+                <!--<div class="filter-result 01" th:if="${verify.canTrade(ad, user)}">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        <div class="desig">
+                        <span class="pull-left">
+                            <a href="" id="user_status" data-toggle="tooltip" data-placement="top" title="">
+                            <h3 th:utext="${ad.user.username}" style="text-transform: capitalize"></h3></a>
+                                            <small th:utext="'Last seen one day ago'"></small>
+                                        </span>
+                            <span class="pull-right">
+                                         <a th:href="@{'/trade/' + ${@pathVariableEnc.encrypt(ad.id)}}">
+                                             <span class="label job-type job-contract ">Buy</span>
+                                         </a>
+                                    </span>
+                        </div>
+
+                        <div class="job-footer">
+                            <ul>
+                                <li th:utext="${ad.currency.currencyCode} + '  ' +${ad.btcRate}+ ' / BTC'"></li>
+                                <li th:utext="'Limits: '+${ad.minLimit}+' - '+${ad.maxLimit}+' '+ ${ad.currency.currencyCode} "></li>
+                                <li th:utext="${ad.paymentType.paymentTypeName}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>-->
+                <!--</th:block>-->
+                <!--jobs result-->
+            </div>
+
+            <div class="jobs list-style2" th:if="${advertisementList.isEmpty()}">
+                <div class="alert alert-info"><i class="fa fa-info-circle"></i> There is nothing to display</div>
+            </div>
+            <!--jobs result-->
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+</body>

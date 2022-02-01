@@ -1,0 +1,92 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/admin/head :: adminhead">
+</head>
+<body>
+<div class="navbar navbar-inverse" role="navigation" th:include="layout/admin/header :: adminheader">
+</div>
+
+<div class="template-page-wrapper">
+    <div th:include="layout/admin/menu :: adminmenu" class="navbar-collapse collapse templatemo-sidebar"></div>
+    <div class="templatemo-content-wrapper">
+
+        <div class="templatemo-content">
+            <ol class="breadcrumb">
+                <li><a href="./">Btc Market Administrator</a></li>
+                <li class="active">Users</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Edit user
+                </div>
+                <div class="panel-body">
+                    <div th:replace="layout/admin/globalmessages :: admin-global-messages">(global-messages)</div>
+
+                    <div class="col-md-6">
+                        <form th:action="@{/admin/cms/create}" method="POST" th:object="${cms}">
+                            <div class="form-group">
+                                <label>Page Title</label>
+                                <input type="text" class="form-control" th:field="*{name}" tabindex="0"
+                                       autofocus="autofocus"
+                                       placeholder="Page Title">
+                                <p th:if="${#fields.hasErrors('name')}" class="label label-danger"
+                                   th:errors="*{name}">
+                                    </p>
+                            </div>
+                            <div class="form-group">
+                                <label>Page Title Code</label>
+                                <input type="text" class="form-control" th:field="*{pageTitleCode}" placeholder="Page Title Code" />
+                                <p th:if="${#fields.hasErrors('pageTitleCode')}" class="label label-danger"
+                                   th:errors="*{pageTitleCode}">
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <label>Page Id</label>
+                                <input type="text" class="form-control" th:field="*{pageId}"
+                                       placeholder="Page ID (Unique)">
+                                <p th:if="${#fields.hasErrors('pageId')}" class="label label-danger"
+                                   th:errors="*{pageId}">
+                                    </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Content</label>
+                                <textarea class="cleditor" th:field="*{content}" placeholder="Page Content"></textarea>
+                                <p th:if="${#fields.hasErrors('content')}" class="label label-danger"
+                                   th:errors="*{content}">
+                                  </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input type="checkbox" th:field="*{status}" th:value="${{status}}"  class="">
+
+                                <p th:if="${#fields.hasErrors('status')}" class="label label-danger"
+                                   th:errors="*{status}">
+                                </p>
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i>
+                                Save changes
+                            </button>&nbsp;&nbsp;
+                            <a th:href="@{/admin/cms/list}" class="btn btn-primary">Back</a>
+                            <input type="hidden" class="form-control" th:field="*{id}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="templatemo-footer" th:include="layout/admin/footer :: adminfooter"></footer>
+</div>
+<div th:include="layout/admin/afterfooter :: adminafterfooter">
+
+
+</div>
+
+</body>

@@ -1,0 +1,41 @@
+<!--
+  ~ Copyright (c) 16/5/18 10:44 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th width="5%">ID</th>
+        <th width="15%">Type</th>
+        <th width="15%">Config Name</th>
+        <th width="10%">Status</th>
+        <th width="5%">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="config : ${adminConfigList}">
+        <td th:text="${configStat.index+1}"></td>
+        <td th:text="${config.type}"></td>
+        <td th:text="${config.configName}"></td>
+
+
+        <td th:if="${config.status==false}"><span class="label label-danger">Inactive</span></td>
+        <td th:if="${config.status==true}"><span class="label label-success">Active</span></td>
+        <td>
+            <a th:href="@{'/admin/config/edit/form/' + ${config.id}}"><i
+                    class="fa fa-pencil"></i></a>
+            <a class="delete" th:href="@{'/admin/config/delete/' + ${config.id}}"><i
+                    class="fa fa-times"></i></a>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+<div th:include="layout/pagingajax :: pagingnavigation" th:with="pagging=${pagging},ajaxDivId='admin-aconfig-ajax-div'">
+
+</div>

@@ -1,0 +1,172 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/admin/head :: adminhead">
+</head>
+<body>
+<div class="navbar navbar-inverse" role="navigation" th:include="layout/admin/header :: adminheader">
+</div>
+
+<div class="template-page-wrapper">
+    <div th:include="layout/admin/menu :: adminmenu" class="navbar-collapse collapse templatemo-sidebar"></div>
+    <div class="templatemo-content-wrapper">
+
+        <div class="templatemo-content">
+            <ol class="breadcrumb">
+                <li><a href="./">Btc Market Administrator</a></li>
+                <li class="active">Users</li>
+
+            </ol>
+            <div th:replace="layout/admin/globalmessages :: admin-global-messages">(global-messages)</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Edit user
+                </div>
+                <div class="panel-body">
+
+
+                    <div class="col-md-6">
+                        <form th:action="@{/admin/user/create}" method="POST" th:object="${user}">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" class="form-control" th:field="*{firstName}"
+                                       placeholder="First Name">
+                                <p th:if="${#fields.hasErrors('firstName')}" class="label label-danger"
+                                   th:errors="*{firstName}">
+                                    Incorrect LP</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Middle Name</label>
+                                <input type="text" class="form-control" th:field="*{middleName}"
+                                       placeholder="Middle Name">
+                                <p th:if="${#fields.hasErrors('middleName')}" class="label label-danger"
+                                   th:errors="*{middleName}">
+                                    Incorrect LP</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" class="form-control" th:field="*{lastName}" placeholder="Last Name">
+                                <p th:if="${#fields.hasErrors('lastName')}" class="label label-danger"
+                                   th:errors="*{lastName}">
+                                    Incorrect LP</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" class="form-control" th:field="*{username}" placeholder="Username"
+                                       name="username">
+                                <p th:if="${#fields.hasErrors('username')}" class="label label-danger"
+                                   th:errors="*{username}">
+                                    Incorrect LP</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Email address</label>
+                                <input type="text" class="form-control" name="email" th:field="*{email}"
+                                       placeholder="Email">
+                                <p th:if="${#fields.hasErrors('email')}" class="label label-danger"
+                                   th:errors="*{email}">Incorrect
+                                    LP</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label>User Role</label>
+
+
+                                <!--<ul>
+                                    <li th:each="urole : ${rolesList}">
+                                        <input type="checkbox" th:field="*{roles}" th:value="${urole.id}" th:checked="${user.roles.contains(urole)}" />
+                                        <label th:for="${#ids.prev('roles')}" th:text="${urole.role}">Role</label>
+                                    </li>
+                                </ul>-->
+
+                                <!--<select  multiple="multiple" class="form-control" th:field="*{roles}">
+                                    <option   th:each="urole : ${rolesList}" th:value="${{urole.id}}" th:text="${urole.role}"></option>
+                                </select>-->
+
+                                <select id="roles" class="form-control" th:field="*{roles}" size="10" multiple="multiple">
+                                    <option th:each="urole : ${rolesList}"
+                                            th:value="${{urole}}"
+                                            th:text="${urole.role}">
+
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>User Role</label>
+                                <select id="roles" class="form-control" th:field="*{currency}"  >
+                                    <option th:each="crs : ${currencies}"
+                                            th:value="${{crs}}"
+                                            th:text="${crs.currencyCode}">
+
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" th:field="*{phone}">
+                                <input type="hidden" class="form-control" th:field="*{id}" placeholder="id">
+                                <p th:if="${#fields.hasErrors('phone')}" class="label label-danger"
+                                   th:errors="*{phone}">Incorrect
+                                    LP</p>
+                            </div>
+                            <div th:class="form-group">
+                                <label>Enabled</label>
+                                <input type="checkbox" th:field="*{enabled}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>SMS Verified</label>
+                                <input type="checkbox" th:field="*{phoneVerified}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Trusted?</label>
+                                <input type="checkbox" th:field="*{trusted}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Selling vacation?</label>
+                                <input type="checkbox" th:field="*{sellingVacation}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Buying vacation?</label>
+                                <input type="checkbox" th:field="*{buyingVacation}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Enable Web Notification?</label>
+                                <input type="checkbox" th:field="*{enableWebNotification}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Disable Sensitive Information From Email?</label>
+                                <input type="checkbox" th:field="*{disableSensitiveInformationFromEmail}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Deleted Account ?</label>
+                                <input type="checkbox" th:field="*{accountDeleted}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Send Trade SMS ?</label>
+                                <input type="checkbox" th:field="*{sendNewTradeSms}" value="true">
+                            </div>
+                            <div th:class="form-group">
+                                <label>Send Escrow SMS ?</label>
+                                <input type="checkbox" th:field="*{escrowSms}" value="true">
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i>
+                                Save changes
+                            </button>
+                            &nbsp;&nbsp;
+                            <a th:href="@{/admin/user/list}" class="btn btn-primary">Back</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="templatemo-footer" th:include="layout/admin/footer :: adminfooter"></footer>
+</div>
+<div th:include="layout/admin/afterfooter :: adminafterfooter">
+
+</div>
+</body>

@@ -1,0 +1,121 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<div th:fragment="adminafterfooter">
+    <script th:src="@{/resources/admin/assets/js/jquery.js}"></script>
+    <script th:src="@{/resources/js/jquery-confirm.js}"></script>
+    <script th:src="@{/resources/admin/assets/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/admin/assets/cleditor/jquery.cleditor.css}"/>
+    <link rel="stylesheet" th:href="@{/resources/admin/assets/css/style.css}"/>
+    <script type="text/javascript" th:src="@{/resources/admin/assets/cleditor/jquery.cleditor.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/css/jquery-confirm.css}"/>
+
+
+    <script>
+        $(document).ready(function () {
+            $(".cleditor").cleditor();
+        });
+
+        var askConfirmation = true;
+        $(".form").on("submit", function (event) {
+            if (askConfirmation == true) {
+                event.preventDefault();
+                var ele = $(this);
+                $.confirm({
+                    title: 'Confirm!',
+                    content: 'Are you sure you want to perform this action ?',
+                    buttons: {
+                        confirm: {
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                askConfirmation = false;
+                                ele.submit();
+                                return true;
+                            }
+                        },
+                        cancel: {
+                            btnClass: 'btn-default',
+                            action: function () {
+                                askConfirmation = true;
+                                $.alert("Cancelled")
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        $(".delete").on("click", function (event) {
+
+                event.preventDefault();
+                var ele = $(this);
+                $.confirm({
+                    title: 'Confirm!',
+                    content: 'Are you sure you want to perform this action ?<br/>It will also delete child elements.<br/><span style="color:red;">Please cancel if you are not sure what you are doing.</span>',
+                    buttons: {
+                        confirm: {
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                window.location.href = ele.attr('href');
+                                return true;
+                            }
+                        },
+                        cancel: {
+                            btnClass: 'btn-default',
+                            action: function () {
+                                $.alert("Action Cancelled")
+                            }
+                        }
+                    }
+                });
+
+        });
+
+        function confirmDialog() {
+
+        }
+
+        /*$.confirm({
+            title: 'Confirm!',
+            content: 'Simple confirm!',
+            buttons: {
+                confirm: function () {
+                    $.alert('Confirmed!');
+                },
+                cancel: function () {
+                    $.alert('Canceled!');
+                },
+                somethingElse: {
+                    text: 'Something else',
+                    btnClass: 'btn-blue',
+                    keys: ['enter', 'shift'],
+                    action: function(){
+                        $.alert('Something else?');
+                    }
+                }
+            }
+        });*/
+
+        function noPage(p) {
+            $.confirm({
+                title: '',
+
+                icon: 'fa fa-warning btn-danger btn',
+                content: 'There is no '+p+'page',
+                animationBounce: 2.5,
+                buttons: {
+                    ok: {
+                        btnClass: 'btn-blue',
+
+                        action: function () {
+                        }
+                    },
+                }
+            });
+        }
+    </script>
+</div>

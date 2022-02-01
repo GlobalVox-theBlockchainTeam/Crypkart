@@ -1,0 +1,81 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/admin/head :: adminhead">
+</head>
+<body>
+<div class="navbar navbar-inverse" role="navigation" th:include="layout/admin/header :: adminheader">
+</div>
+
+<div class="template-page-wrapper">
+    <div th:include="layout/admin/menu :: adminmenu" class="navbar-collapse collapse templatemo-sidebar"></div>
+    <div class="templatemo-content-wrapper">
+
+        <div class="templatemo-content">
+            <ol class="breadcrumb">
+                <li><a href="./"><?php echo $settings['name']; ?> Administrator</a></li>
+                <li class="active">Pay Types</li>
+            </ol>
+            <div th:replace="layout/admin/globalmessages :: admin-global-messages">(global-messages)</div>
+            <div><a th:href="@{/admin/pay/form}" class="btn btn-primary">Create</a></div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Users
+                    <span class="pull-right">
+			<form action="" method="POST">
+				<input type="text" class="input_search" name="qry" placeholder="Search...">
+			</form>
+		</span>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="5%">ID</th>
+                            <th width="15%">Name</th>
+                            <th width="15%">Search Count</th>
+                            <th width="15%">Created At</th>
+                            <th width="10%">Status</th>
+                            <th width="5%">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="paymentType : ${paymentTypes}">
+                            <td th:text="${paymentType.id}"></td>
+                            <td th:text="${paymentType.paymentTypeName}"></td>
+                            <td th:text="${paymentType.searchCount}"></td>
+                            <td th:if="${paymentType.createdAt!=null}" th:text="${T(com.gradle.util.Common).getTimeInUserSpecificZone(paymentType.createdAt,@serviceUtil.getCurrentUser())}"></td>
+                            <td th:if="${paymentType.createdAt==null}">-</td>
+                            <td th:if="${paymentType.status==false}"><span class="label label-danger">Inactive</span>
+                            </td>
+                            <td th:if="${paymentType.status==true}"><span class="label label-success">Active</span></td>
+                            <td>
+                                <a th:href="@{'/admin/pay/edit/form/' + ${paymentType.id}}"><i class="fa fa-pencil"></i></a>
+                                <a class="delete" th:href="@{'/admin/pay/delete/' + ${paymentType.id}}"><i
+                                        class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div th:include="layout/paging :: pagingnavigation">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="templatemo-footer" th:include="layout/admin/footer :: adminfooter"></footer>
+</div>
+<div th:include="layout/admin/afterfooter :: adminafterfooter">
+
+</div>
+</body>

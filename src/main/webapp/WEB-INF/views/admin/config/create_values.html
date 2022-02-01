@@ -1,0 +1,90 @@
+<!--
+  ~ Copyright (c) 12/3/18 12:29 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/admin/head :: adminhead">
+</head>
+<body>
+<div class="navbar navbar-inverse" role="navigation" th:include="layout/admin/header :: adminheader">
+</div>
+
+<div class="template-page-wrapper">
+    <div th:include="layout/admin/menu :: adminmenu" class="navbar-collapse collapse templatemo-sidebar"></div>
+    <div class="templatemo-content-wrapper">
+
+        <div class="templatemo-content">
+            <ol class="breadcrumb">
+                <li><a href="./">Btc Market Administrator</a></li>
+                <li class="active">Users</li>
+            </ol>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Edit user
+                </div>
+                <div class="panel-body">
+                    <div th:replace="layout/admin/globalmessages :: admin-global-messages">(global-messages)</div>
+
+                    <div class="col-md-6">
+                        <form th:action="@{/admin/config/value/create}" method="POST" th:object="${adminConfigValues}">
+                            <div class="form-group">
+                                <label>Config Name</label>
+                                <input type="text" class="form-control" th:field="*{name}" tabindex="0"
+                                       autofocus="autofocus"
+                                       placeholder="Config Name">
+                                <p th:if="${#fields.hasErrors('name')}" class="label label-danger"
+                                   th:errors="*{name}">
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select class="form-control" th:field="*{adminConfig}" size="10">
+                                    <option th:each="aConfig : ${adminConfigList}"
+                                            th:value="${{aConfig}}"
+                                            th:text="${aConfig.configName}">
+                                    </option>
+                                </select>
+                                <p th:if="${#fields.hasErrors('adminConfig')}" class="label label-danger"
+                                   th:errors="*{adminConfig}">
+                                </p>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Value</label>
+                                <input type="text" th:field="*{value}" class="form-control">
+                                <p th:if="${#fields.hasErrors('value')}" class="label label-danger"
+                                   th:errors="*{value}">
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input type="checkbox" th:field="*{status}" th:value="${{status}}"  class="">
+
+                                <p th:if="${#fields.hasErrors('status')}" class="label label-danger"
+                                   th:errors="*{status}">
+                                </p>
+                            </div>
+                            <button type="submit" class="btn btn-primary" name="btn_save"><i class="fa fa-check"></i>
+                                Save changes
+                            </button>&nbsp;&nbsp;
+                            <a th:href="@{/admin/config/value/list}" class="btn btn-primary">Back</a>
+                            <input type="hidden" class="form-control" th:field="*{id}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="templatemo-footer" th:include="layout/admin/footer :: adminfooter"></footer>
+</div>
+<div th:include="layout/admin/afterfooter :: adminafterfooter">
+
+
+</div>
+
+</body>

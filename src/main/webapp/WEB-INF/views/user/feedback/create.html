@@ -1,0 +1,137 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:fragment="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-12 wallet-left">
+            <!--<div th:include="layout/wallet/qrcode :: barcode" class="panel panel-default"></div>-->
+            <div th:include="layout/wallet/menu :: walletMenu"></div>
+        </div>
+        <div class="col-md-12 wallet-right">
+            <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+            <form th:object="${feedBack}" th:action="@{'/user/feedback/' + ${@pathVariableEnc.encrypt(trade.id)}}" th:method="POST">
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <span th:utext="#{User.feedback.page.title}"></span>
+
+
+                    </div>
+                    <div class="panel-body">
+
+                        <div th:class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <input type="radio" th:field="*{star}" value="5" class="" th:attr="data-labelauty=#{User.feedback.5}">
+                                    <input type="hidden" name="trade" th:value="${trade.id}" />
+                                </div>
+                                <div class="col-md-9">
+                                    <p th:utext="#{User.trust.label.text}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12"></div>
+                        <div th:class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <input type="radio" th:field="*{star}" value="4" class="" th:attr="data-labelauty=#{User.feedback.4}">
+
+                                </div>
+                                <div class="col-md-9">
+                                    <p th:utext="#{User.neutral.label.text}"></p><br/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12"></div>
+                        <div th:class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <input type="radio" th:field="*{star}" value="3" class="" th:attr="data-labelauty=#{User.feedback.3}">
+
+                                </div>
+                                <div class="col-md-9">
+                                    <p th:utext="#{User.block.label.text}"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p th:if="${#fields.hasErrors('star')}" class="label label-danger" th:errors="*{star}"></p>
+
+
+
+                    </div>
+
+                    <div class="panel-heading" style="padding:0;">
+
+                    </div>
+                    <div class="panel-body">
+                        <div th:class="form-group">
+                            <div class="col-md-12">
+                                <label th:utext="#{User.feedback.label.comment}"></label>
+                            </div>
+                        </div>
+                        <div th:class="form-group">
+                            <div class="col-md-12">
+                                <textarea class="cleditor" th:field="*{comment}"></textarea>
+                                <p th:if="${#fields.hasErrors('comment')}" class="label label-danger" th:errors="*{comment}"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading" style="padding:0;">
+
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary pull-right" th:text="#{User.feedback.create.button}">
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!--<div class="panel panel-default">
+        <div class="panel-body">
+            This trade was expired. You cant take any action more.
+        </div>
+    </div>-->
+</div>
+
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(":checkbox").labelauty();
+        $(":radio").labelauty();
+    });
+</script>
+</body>
+</html>

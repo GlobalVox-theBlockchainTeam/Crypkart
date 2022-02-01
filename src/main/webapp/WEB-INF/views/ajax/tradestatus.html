@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+    <a class="btn  btn-primary btn-disabled confirm-dialog no-loading"
+       th:if="${trade.tradeStatus.statusCode==7 && currentUserId==paymentSender}"
+       th:href="@{'/trade/sendpayment/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'I have paid'}"></a>
+
+    <a class="btn  btn-primary btn-disabled confirm-dialog no-loading"
+       th:if="${trade.tradeStatus.statusCode==7 && currentUserId==paymentSender}"
+       th:href="@{'/trade/cancel/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Cancel Trade'}"
+
+    ></a>
+    <a class="btn  btn-primary btn-disabled"
+       th:if="${trade.tradeStatus.statusCode==5 && currentUserId==paymentSender}"
+       th:href="@{'/trade/bitcoinreceived/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Complete Trade'}"></a>
+    <a class="btn btn-primary btn-disabled"
+       th:if="${trade.tradeStatus.statusCode==3 && currentUserId==paymentReceiver}"
+       th:href="@{'/trade/bitcoinreleased/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Release Bitcoins'}"></a>
+    <!--<a class="btn btn-primary btn-disabled"
+       th:if="${trade.tradeStatus.statusCode==3 && currentUserId==paymentReceiver}"
+       th:href="@{'/trade/paymentreceived/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Payment Received'}"></a>-->
+    <a class="btn btn-primary btn-disabled"
+       th:if="${trade.tradeStatus.statusCode==2 && currentUserId==paymentReceiver}"
+       th:href="@{'/trade/bitcoinescrowed/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Escrow Bitcoins'}"></a>
+    <a class="btn btn-primary btn-disabled"
+       th:if="${trade.tradeStatus.statusCode==1 && ((currentUserId==trade.advertise.user.id && !trade.feedbackFromAdvertiser) || (currentUserId!=trade.advertise.user.id && !trade.feedbackFromTrader))}"
+       th:href="@{'/user/feedback/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Submit Feedback'}"></a>
+
+    <a class="btn  btn-primary btn-disabled confirm-dialog no-loading"
+       th:if="${currentUserId==paymentReceiver && T(com.gradle.util.Common).isSellerAllowedToCancel(trade)}"
+       th:href="@{'/trade/cancel/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Cancel Trade'}"></a>
+
+    <a th:href="@{'/trade/report/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+       class="btn btn-warning pull-right"
+       data-original-title="Report as Invalid" title=""><i class="fa fa-flag"></i>
+        <span th:utext="#{Trade.process.label.report.trade}"  th:remove="tag"></span>
+    </a>

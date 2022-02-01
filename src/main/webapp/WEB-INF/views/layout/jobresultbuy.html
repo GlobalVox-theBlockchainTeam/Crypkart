@@ -1,0 +1,138 @@
+<!--
+  ~ Copyright (c) 16/3/18 4:52 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<div th:fragment="buyjobresult">
+    <div class="jobs-result col-md-12" th:if="${!advertisementBuyList.isEmpty()}">
+        <!--Search Result 01-->
+        <div class="jobs list-style2">
+
+
+                <table class="table table-striped">
+
+                    <tbody>
+                    <th:block th:each="ad : ${advertisementBuyList}">
+                        <tr >
+                            <td><a th:href="@{'/user/profile/' + ${ad.user.username}}" th:text="${ad.user.username}"></a></td>
+                            <th:block th:if="${#authentication.name} == ${ad.user.username}">
+                                <td>
+                                    <form th:id="'inline_edit_id'+${ad.id}"  th:action="@{'/trade/inline/edit/'+${@pathVariableEnc.encrypt(ad.id)}}" th:method="POST">
+                                        <div class="form-inline">
+                                            <div class="form-group">
+                                                <!--<input class="form-control" th:id="'inline_edit_input_id'+${ad.id}" type="text" th:value="${ad.btcRate}"
+                                                       name="btcRate"/>-->
+                                                <span th:text="${ad.btcRate}"></span>
+                                                <!--<button class="btn btn-primary" type="button" th:onclick="'confirmCurrencyRate(\'' + ${ad.id}+'\',\'' + ${ad.currency.currencyCode}+'\')'">Save</button>-->
+                                                <button style="border:none;" class="btn btn-primary edit-inline-rate" th:attr="data-code=${ad.currency.currencyCode},data-id=${ad.id}, data-min=${ad.minLimit}, data-max=${ad.maxLimit}, data-rate=${ad.btcRate},data-url=@{'/trade/inline/edit/'+${@pathVariableEnc.encrypt(ad.id)}}"
+
+                                                        type="button" ><i style="color: red;" class="fa fa-pencil"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+
+                            </th:block>
+                            <th:block th:if="${#authentication.name} != ${ad.user.username}">
+                                <td th:text="${ad.currency.currencyCode} + '  ' +${ad.btcRate}"></td>
+                            </th:block>
+                            <td th:utext="${ad.currency.currencyCode}+' '+${ad.minLimit}+' - '+${ad.maxLimit}"></td>
+                            <td th:text="${ad.paymentType.paymentTypeName}"></td>
+                            <td style="padding-right:0;">
+                                <!--<a  class="btn btn-primary  pull-right" th:href="@{'/trade/' + ${@pathVariableEnc.encrypt(ad.id)}}" th:text="${button!=null ? button : 'Sell'}"></a>-->
+                                <th:block th:if="${#authentication.name} == ${ad.user.username}">
+
+                                    <form th:id="'inline_edit_id'+${ad.id}"
+                                          th:action="@{'/trade/inline/edit/'+${@pathVariableEnc.encrypt(ad.id)}}"
+                                          th:method="POST">
+                                        <div class="pull-right">
+                                            <div class="form-group">
+                                                <!--<input class="form-control" th:id="'inline_edit_input_id'+${ad.id}" type="text" th:value="${ad.btcRate}"
+                                                       name="btcRate"/>-->
+                                                <!--<button class="btn btn-primary" type="button" th:onclick="'confirmCurrencyRate(\'' + ${ad.id}+'\',\'' + ${ad.currency.currencyCode}+'\')'">Save</button>-->
+                                                <!--<span th:text="${ad.btcRate}"></span>-->
+
+                                                <button style=""
+                                                        class="btn btn-primary edit-inline-rate"
+                                                        th:attr="data-code=${ad.currency.currencyCode},data-id=${ad.id}, data-min=${ad.minLimit}, data-max=${ad.maxLimit}, data-rate=${ad.btcRate},data-url=@{'/trade/inline/edit/'+${@pathVariableEnc.encrypt(ad.id)}}"
+
+                                                        type="button">
+                                                    Edit
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+                                </th:block>
+                                <th:block th:if="${#authentication.name} != ${ad.user.username}">
+                                    <a class="btn btn-primary  pull-right"
+                                       th:href="@{'/trade/' + ${@pathVariableEnc.encrypt(ad.id)}}"
+                                       th:text="${button!=null ? button : 'Sell'}"></a>
+                                </th:block>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                    <thead>
+                    <tr>
+                        <th width="20%" >
+                            <i class="fa fa-search " onclick="findByAdvertiser('advertiser-buy-form');"></i>
+                            <span id="advertiser-buy-label" onclick="findByAdvertiser('advertiser-buy-form');">Buyer</span>
+                            <form method="post" th:action="@{/advertise/search/advertiser}" style="display: none;" id="advertiser-buy-form" th:object="${searchForm}">
+                                <input type="text" name="advertiser"  id="advertiser">
+                            </form>
+                        </th>
+                        <th>
+                            BTC Rate
+                        </th>
+                        <th>
+                            Limit
+                        </th>
+                        <th>
+                            Pay Method
+                        </th>
+                        <th >
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+
+                <!--<div class="filter-result 01" th:if="${verify.canTrade(ad, user)}">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        <div class="desig">
+                        <span class="pull-left">
+                            <a href="" id="user_status" data-toggle="tooltip" data-placement="top" title="">
+                            <h3>Username</h3></a>
+                                            <small>Uid</small>
+										</span>
+                            <span class="pull-right">
+										 <a th:href="@{'/trade/' + ${@pathVariableEnc.encrypt(ad.id)}}">
+                                             <span class="label job-type job-contract ">Sell</span>
+                                         </a>
+                                    </span>
+                        </div>
+
+                        <div class="job-footer">
+                            <ul>
+                                <li th:utext="${ad.currency.currencyCode} + '  ' +${ad.btcRate}+ ' / BTC'"></li>
+                                <li th:utext="'Limits: '+${ad.minLimit}+' - '+${ad.maxLimit}+' '+ ${ad.currency.currencyCode} "></li>
+                                <li th:utext="${ad.paymentType.paymentTypeName}"></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>-->
+                <!--jobs result-->
+
+        </div>
+        <div class="jobs list-style2" th:if="${advertisementBuyList.isEmpty()}">
+            <div class="alert alert-info"><i class="fa fa-info-circle"></i> There is nothing to display</div>
+        </div>
+        <!--jobs result-->
+        <div class="clearfix"></div>
+    </div>
+</div>

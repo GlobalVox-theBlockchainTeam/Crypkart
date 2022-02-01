@@ -1,0 +1,79 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:include="layout :: htmlhead" th:with="title='Hello'"></head>
+
+<body>
+<div th:replace="layout :: navbar">(navbar)</div>
+
+
+<div class="container">
+    <div th:replace="layout :: global-messages">(global-messages)</div>
+
+    <div class="starter-template">
+        <h1>Spring MVC / Thymeleaf / Bootstrap</h1>
+        <div class="">
+            <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+                <div class="">
+
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control" type="hidden" th:field="*{id}" placeholder="First Name"/>
+                    <input class="form-control" type="text" th:field="*{firstName}" placeholder="First Name"/>
+                    <p th:if="${#fields.hasErrors('firstName')}" class="label label-danger" th:errors="*{firstName}">
+                        Incorrect LP</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{middleName}" placeholder="Middle Name"/>
+                    <p th:if="${#fields.hasErrors('middleName')}" class="label label-danger" th:errors="*{middleName}">
+                        Incorrect LP</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{lastName}" placeholder="Last Name"/>
+                    <p th:if="${#fields.hasErrors('lastName')}" class="label label-danger" th:errors="*{lastName}">
+                        Incorrect LP</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{username}" placeholder="User name"/>
+                    <p th:if="${#fields.hasErrors('username')}" class="label label-danger" th:errors="*{username}">
+                        Incorrect LP</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{phone}" placeholder="Phone"/>
+                    <p th:if="${#fields.hasErrors('phone')}" class="label label-danger" th:errors="*{phone}">Incorrect
+                        LP</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{email}" placeholder="Email"/>
+                    <p th:if="${#fields.hasErrors('email')}" class="label label-danger" th:errors="*{email}">Incorrect
+                        LP</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" th:field="*{password}" placeholder="Password" autocomplete="false"/>
+                    <p th:if="${#fields.hasErrors('password')}" class="label label-danger" th:errors="*{password}">
+                        Incorrect LP</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" th:field="*{confirmPassword}" placeholder="Confirm Password" autocomplete="false"/>
+                    <p th:if="${#fields.hasErrors('confirmPassword')}" class="label label-danger" th:errors="*{confirmPassword}">
+                        Incorrect LP</p>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Register</button>&nbsp;<a th:href="@{/login}"><button type="button" class="btn btn-warning">Login</button></a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div th:include="layout :: footer" id="footer">(footer)</div>
+
+</body>
+</html>

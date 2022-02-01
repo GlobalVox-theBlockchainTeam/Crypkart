@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 16/3/18 3:46 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<div class="container-fluid page-title">
+    <div class="row blue-banner">
+        <div class="container main-container">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <span style="color:#fff;font-size:35px;font-weight:bold;">
+                    <span th:utext="'Trade #' + ${trade.advertise.id}"></span>
+                    <small>
+                       <span th:utext="#{Trade.process.label.from.advertisement}" th:remove="tag"></span>
+
+                    <a
+                            href="http://localhost/localbtc/ad/Bitcoin-to-Perfect-Money/12346" style="color:#fff;"
+                            data-original-title="" title="" th:utext="'#' + ${trade.advertise.id}">
+
+                    </a>
+                        <span th:utext="', Bitcoin Price '+${trade.advertise.btcRate}+' '+ ${trade.advertise.currency.currencyCode}+'/BTC'"></span>
+                    </small>
+                </span>
+                <small><br>
+                    <span style="color:#fff;font-size:25px;">
+                        <span th:utext="#{Trade.process.label.trade.amount}"></span>
+                        <b
+                                th:text="${trade.amount}+' '+ ${trade.advertise.currency.currencyCode}"></b> <span
+                            th:text="${'('+trade.btcAmount+')'}"></span></span>
+                </small>
+            </div>
+            <small>
+            </small>
+        </div>
+        <small>
+        </small>
+    </div>
+</div>
+<!--header section -->
+<!-- full width section -->
+<div class="container-fluid white-bg">
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <div class="content">
+                    <div class="col-md-12">
+                        <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <b>Status:</b> <span id="trade_status_12345">
+                                <span class="text text-info" th:if="${trade.tradeStatus.statusCode==7}"
+                                      th:text="'Bitcoin Escrowed : Buyer needs to send payment'"></span>
+                                <span class="text text-info" th:if="${trade.tradeStatus.statusCode==2}"
+                                      th:text="'In process : Seller needs to escrow bitcoins'"></span>
+                                <span class="text text-info" th:if="${trade.tradeStatus.statusCode==3}"
+                                      th:text="'Payment Sent : Seller needs needs to confirm payment'"></span>
+                                <span class="text text-info" th:if="${trade.tradeStatus.statusCode==4}"
+                                      th:text="'Payment Received : Seller needs to release bitcoins'"></span>
+                                <span class="text text-info" th:if="${trade.tradeStatus.statusCode==5}"
+                                      th:text="'Bitcoin Released : Buyer needs confirm bitcoin received'"></span>
+                                <span class="text text-info" th:if="${trade.tradeStatus.statusCode==1}"
+                                      th:text="'Trade Completed'"></span>
+                                <span class="text text-info" th:if="${trade.tradeStatus.statusCode==8}"
+                                      th:text="'Trade Cancelled'"></span>
+                            </span>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p style="font-size:16px;" th:utext="#{Trade.process.label.money.info}">
+                                </p>
+                                <div class="alert alert-info">
+                                    <b style="font-size:14px;"
+                                       th:utext="#{Trade.process.label.payment.instructions}"></b><br>
+                                    <br>
+                                    <div th:utext="${trade.paymentInstructions}">
+
+                                    </div>
+                                </div>
+                                <p style="font-size:14px;" class="text text-danger"
+                                   th:utext="#{Trade.process.label.pay.info}">
+
+                                </p>
+                                <!--<p th:utext="#{Trade.process.label.trade.process}">-->
+
+                                </p>
+                                <br>
+                                <a class="btn  btn-primary btn-disabled"
+                                   th:if="${trade.tradeStatus.statusCode==7 && currentUserId==paymentSender}"
+                                   th:href="@{'/trade/sendpayment/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Sending Payments'}"></a>
+
+                                <a class="btn  btn-danger btn-disabled"
+                                   th:if="${trade.tradeStatus.statusCode==7 && currentUserId==paymentSender}"
+                                   th:href="@{'/trade/cancel/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Cancel Trade'}"></a>
+                                <a class="btn  btn-primary btn-disabled"
+                                   th:if="${trade.tradeStatus.statusCode==5 && currentUserId==paymentSender}"
+                                   th:href="@{'/trade/bitcoinreceived/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Complete Trade'}"></a>
+                                <a class="btn btn-primary btn-disabled"
+                                   th:if="${trade.tradeStatus.statusCode==3 && currentUserId==paymentReceiver}"
+                                   th:href="@{'/trade/bitcoinreleased/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Releasing Bitcoins'}"></a>
+                                <!--<a class="btn btn-primary btn-disabled"
+                                   th:if="${trade.tradeStatus.statusCode==3 && currentUserId==paymentReceiver}"
+                                   th:href="@{'/trade/paymentreceived/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Payment Received'}"></a>-->
+                                <a class="btn btn-primary btn-disabled"
+                                   th:if="${trade.tradeStatus.statusCode==2 && currentUserId==paymentReceiver}"
+                                   th:href="@{'/trade/bitcoinescrowed/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Escrow Bitcoins'}"></a>
+                                <a class="btn btn-primary btn-disabled"
+                                   th:if="${trade.tradeStatus.statusCode==1 && ((currentUserId==trade.advertise.user.id && !trade.feedbackFromAdvertiser) || (currentUserId!=trade.advertise.user.id && !trade.feedbackFromTrader))}"
+                                   th:href="@{'/user/feedback/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Submit Feedback'}"></a>
+
+                                <a class="btn  btn-primary btn-disabled"
+                                   th:if="${currentUserId==paymentReceiver && T(com.gradle.util.Common).isSellerAllowedToCancel(trade)}"
+                                   th:href="@{'/trade/cancel/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   th:utext="${'<i class=''fa fa-angle-double-right''></i> '+'Cancel Trade'}"></a>
+
+                                <a th:href="@{'/trade/report/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   class="btn btn-warning"
+                                   data-original-title="Report as Invalid" title=""><i class="fa fa-flag"></i>
+                                    <span th:utext="#{Trade.process.label.report.trade}" th:remove="tag"></span>
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <!--<div class="panel panel-default">
+                            <div class="panel-body">
+                                This trade was expired. You cant take any action more.
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+
+                                <form action="http://localhost:8880/trade/upload" method="post"
+                                      enctype="multipart/form-data" style="display: none;">
+                                    <div class="form-group">
+                                        <label th:utext="#{Trade.process.label.select.file}"></label> <input
+                                            class="form-control" type="file" name="file"
+                                            id="file">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit" id="uploadfilebutton"
+                                                th:utext="#{Trade.process.label.upload}">
+                                        </button>
+                                    </div>
+                                </form>
+
+
+                                <!-- Bootstrap Progress bar -->
+
+
+                                <th:block th:if="${trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED
+                                &&
+                                trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_CANCELLED
+                                }">
+                                    <h4 class="head" th:if="${online}"><span th:utext="#{Trade.process.label.chat.with}"
+                                                                             th:remove="tag"></span>
+                                        <a th:href="@{'/user/profile/' + ${tradeUser.username}}">
+                                        <span
+                                                class="text text-info link"
+                                                th:text="${tradeUser.username + '(online)'}"></span>
+                                        </a>
+                                    </h4>
+                                    <h4 class="head" th:if="${!online}"><span
+                                            th:utext="#{Trade.process.label.chat.with}" th:remove="tag"></span>
+                                        <a th:href="@{'/user/profile/' + ${tradeUser.username}}">
+                                        <span
+                                                class="text text-info"
+
+                                                th:text="${tradeUser.username + '(offline)'}"></span></a>
+                                    </h4>
+                                    <hr/>
+                                </th:block>
+                                <th:block th:if="${trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED
+                                &&
+                                trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_CANCELLED
+                                }">
+                                    <h4 class="head"><span th:utext="#{Trade.process.label.chat.history.width}"
+                                                           th:remove="tag"></span>
+                                        <a th:href="@{'/user/profile/' + ${tradeUser.username}}">
+                                        <span class="text text-info"
+                                              th:text="${tradeUser.username}"></span>
+                                        </a>
+                                    </h4>
+                                </th:block>
+                                <form id="trade_chat_form_12345" th:if="${trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED
+                                &&
+                                trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_CANCELLED
+                                }">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="message" id="chat-message" rows="3"
+                                                  placeholder="Write message to trader."></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-warning" style="width:49%;"
+                                            onclick="sendMessage($('#chat-message').val());"
+                                            th:utext="#{Trade.process.label.send.message}">
+                                    </button>
+                                    <button class="btn btn-primary" type="button" style="width:49%;"
+                                            onclick="$('#file').click();" th:utext="#{Trade.process.label.upload}">
+                                    </button>
+
+
+                                </form>
+
+
+                                <p style="margin-top:5px;"></p>
+                                <!-- Bootstrap Progress bar -->
+                                <div class="progress progress-striped active"
+                                     style="margin-bottom:3px;background-color: transparent; box-shadow: none; display: none;"
+                                     id="progress">
+                                    <div id="progressBar" class="progress-bar progress-bar-info" role="progressbar"
+                                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                         style=" width: 0; background-color: lightsteelblue;">0%
+                                    </div>
+                                </div>
+
+                                <!-- Alert -->
+                                <p id="alertMsg" class="label" style="border-radius: 4px;"></p>
+
+
+                                <th:block th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED
+                                ||
+                                trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_CANCELLED
+                                }">
+                                    <h4 class="head">Chat History with <a
+                                            th:href="@{'/user/profile/' + ${tradeUser.username}}"
+                                            th:text="${tradeUser.username}"></a></h4>
+                                </th:block>
+                                <hr>
+                                <div id="trade_chat_12345" style="max-height: 200px; overflow: auto;">
+                                    <div th:if="${chatList!=null}" th:each="chat : ${chatList}">
+                                        <div style="font-size:14px;"
+                                             th:classappend="${chat.from==user.username} ? 'my-message' : 'other-message'"
+                                             class="">
+                                            <b>
+                                                <a href="javascript:void(0)" th:text="${chat.from}">
+                                                </a>
+                                            </b>:<b th:text="${#strings.replace(chat.msg,'&#10;','&lt;br&gt;')}"></b>
+                                            <br>
+                                            <span class="text text-muted" style="font-size:11px;"
+                                                  th:text="${chat.time}">
+                                            </span>
+                                        </div>
+                                        <hr/>
+                                    </div>
+
+                                </div>
+                                <hr/>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <input type="hidden" value="1" id="filescount">
+                                <h4 class="head" th:utext="'Files Uploaded by <span>You</span>'"></h4>
+                                <hr/>
+                                <input type="hidden" id="your-files-nofiles"
+                                       th:value="${(chatFilesList!=null && #lists.size(chatFilesList) == 0) ? '1' : '0'}"/>
+                                <div id="your-files" class="col-md-12">
+                                    <th:block th:if="${chatFilesList!=null}" th:each="file : ${chatFilesList}">
+                                        <div class="file col-md-2"
+                                             th:if="${file.userFrom.id==user.id}">
+                                            <a data-toggle="title" th:title="${file.originalName}"
+                                               style="font-size: 40px;"
+                                               th:href="@{'/trade/download/file/'+ ${@pathVariableEnc.encrypt(file.id) +'/'+ @pathVariableEnc.encrypt(file.trade.id) +'/' +file.originalName}}"
+                                               class=""><i class="fa"></i></a>
+                                        </div>
+                                    </th:block>
+                                    <th:block th:if="${chatFilesList!=null && #lists.size(chatFilesList) == 0}">
+                                        <div class="file col-md-12" th:utext="#{Trade.process.label.no.files}">
+
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <h4 class="head"
+                                    th:utext="'Files Uploaded by <span>' + ${tradeUser.username} +'</span>'"></h4>
+                                <hr/>
+                                <div class="col-md-12">
+                                    <th:block th:if="${chatFilesList!=null}" th:each="file : ${chatFilesList}">
+                                        <div class="file col-md-2" th:if="${file.userTo.id==user.id}">
+
+                                            <a data-toggle="title" th:title="${file.originalName}"
+                                               style="font-size: 40px;"
+                                               th:href="@{'/trade/download/file/'+ ${@pathVariableEnc.encrypt(file.id) +'/'+ @pathVariableEnc.encrypt(file.trade.id) +'/' +file.originalName}}"
+                                               class=""><i class="fa"></i></a>
+
+                                        </div>
+                                    </th:block>
+                                    <th:block th:if="${chatFilesList!=null && #lists.size(chatFilesList) == 0}">
+                                        <div class="file col-md-12">
+                                            No files
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+<th:block
+        th:if="${trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED}">
+
+
+    <script type="text/javascript" th:inline="javascript">
+        var stompClient = null;
+        var selectedUsername = /*[[${tradeUser.username}]]*/ '-';
+        var from = /*[[${user.username}]]*/ '-';
+        var tradeId = /*[[${@pathVariableEnc.encrypt(trade.id)}]]*/ '0';
+        var msg = "";
+
+        document.addEventListener("DOMContentLoaded", function () {
+            connect();
+        });
+
+        function setConnected(connected) {
+            /*document.getElementById('connect').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            document.getElementById('conversationDiv').style.visibility
+                = connected ? 'visible' : 'hidden';
+            document.getElementById('response').innerHTML = '';*/
+        }
+
+        function connect() {
+            var socket = new SockJS('/GDL/chat');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                setConnected(true);
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/GDL/user/queue/messages', function (messageOutput) {
+                    showMessageOutput(messageOutput.body);
+                });
+                stompClient.subscribe('/GDL/topic/active', function (messageOutput) {
+                    //updateUsers(JSON.parse(messageOutput.body));
+                });
+            });
+        }
+
+        function disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            setConnected(false);
+            console.log("Disconnected");
+        }
+
+        function sendMessage(msg) {
+            var text = msg;
+            $("#chat-message").val('');
+            stompClient.send("/GDL/app/chat", {},
+                JSON.stringify({'from': from, 'text': text, 'recipient': selectedUsername, 'tradeId': tradeId}));
+        }
+
+        function showMessageOutput(messageOutput) {
+            messageOutput = JSON.parse(messageOutput);
+            if (messageOutput.tradeId == tradeId) {
+                var response = document.getElementById('trade_chat_12345');
+                var p = document.createElement('div');
+                p.style.wordWrap = 'break-word';
+                /*p.appendChild(document.createTextNode(messageOutput.from + ": "
+                + messageOutput.message + " (" + messageOutput.time + ")"));*/
+                p.appendChild(document.createTextNode(createTextNode(messageOutput)));
+                //response.appendChild(p)
+                var oldHtml = $('#trade_chat_12345').html();
+                $('#trade_chat_12345').html(createTextNode(messageOutput) + oldHtml);
+                $('#trade_chat_12345').animate({
+                    scrollTop: 0 //#DIV_ID is an example. Use the id of your destination on the page
+                }, 'slow');
+            }
+            //response.appendChild(p);
+        }
+
+        function createTextNode(messageObj) {
+            /*return '<div class= "row chat-message ' + (messageObj.myMsg ? ' my-message' : '') + '">' +
+                '<div class="col-md-4">' +
+                messageObj.from +
+                '<br><small>' + messageObj.time + '</small>' +
+                '</div>' +
+                '<div class="col-md-8"><b>' +
+                messageObj.message +
+                '</b></div>' +
+                '</div>';*/
+            return '<div style="font-size:14px;" class="' + (messageObj.myMsg ? ' my-message' : 'other-message') + '">' +
+                '<b><a href="javascript:void(0)">' + messageObj.from + '</a></b><b>: ' + messageObj.message.replace(/\n/g, "<br />") + '</b><br>' +
+                '<span class="text text-muted" style="font-size:11px;">' + messageObj.time + '</span>' +
+                '</div>\n' +
+                '<hr>';
+        }
+
+        function updateUsers(userList) {
+            console.log('List of users : ' + userList);
+            var activeUserUL = document.getElementById('active-users');
+
+            var index;
+            activeUserUL.innerHTML = '';
+            if (userList.length == 0) {
+                activeUserUL.innerHTML = '<p><i>No active users found.</i></p>';
+                return;
+            }
+            activeUserUL.innerHTML = '<p class="text-muted">click on user to begin chat</p>';
+
+            for (index = 0; index < userList.length; ++index) {
+                if (userList[index] != from) {
+                    activeUserUL.innerHTML = activeUserUL.innerHTML + createUserNode(userList[index], index);
+                }
+            }
+        }
+
+        function createUserNode(username, index) {
+            return '<li class="list-group-item">' +
+                '<a class="active-user" href="javascript:void(0)" onclick="setSelectedUser(\'' + username + '\')">' + username + '</a>' +
+                '</li>';
+
+        }
+
+        function setSelectedUser(username) {
+            selectedUsername = username;
+            document.getElementById('trade_chat_12345').innerHTML = '';
+        }
+
+
+        $(function () {
+            $('#uploadfilebutton').on("click", function (e) {
+                e.preventDefault();
+                //Disable submit button
+                $(this).prop('disabled', true);
+
+
+                var form = document.forms[0];
+                var formData = new FormData(form);
+                var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+                var csrfToken = $("meta[name='_csrf']").attr("content");
+                var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+                var headers = {};
+                formData[csrfParameter] = csrfToken;
+                /*formData['toUser'] = selectedUsername;
+                formData['fromUser'] = from;
+                formData['tradeId'] = tradeId;*/
+                headers[csrfHeader] = csrfToken;
+                // Ajax call for file uploaling
+                var ajaxReq = $.ajax({
+                    url: '/trade/upload?fromUser=' + from + '&toUser=' + selectedUsername + '&tradeId=' + tradeId,
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    headers: headers,
+                    contentType: false,
+                    processData: false,
+                    xhr: function () {
+                        //Get XmlHttpRequest object
+                        var xhr = $.ajaxSettings.xhr();
+
+                        //Set onprogress event handler
+                        xhr.upload.onprogress = function (event) {
+                            var perc = Math.round((event.loaded / event.total) * 100);
+                            $('#progressBar').text(perc + '%');
+                            $('#progressBar').css('width', perc + '%');
+                        };
+                        return xhr;
+                    },
+                    beforeSend: function (xhr) {
+                        //Reset alert message and progress bar
+                        $('#alertMsg').text('');
+                        $('#progressBar').text('');
+                        $('#progressBar').css('width', '0%');
+                    }
+                });
+
+                // Called on success of file upload
+                ajaxReq.done(function (msg) {
+                    $("#progressBar").removeClass("progress-bar-danger");
+                    $("#progressBar").addClass("progress-bar-success");
+                    $("#alertMsg").hide();
+                    $('#alertMsg').removeClass("label-danger");
+                    $('#alertMsg').addClass("label-info");
+                    $('#alertMsg').text("File uploaded");
+                    var fileName = msg.split("/");
+                    var newFileName = fileName[fileName.length - 1];
+                    var newFileId = "fileid" + $("#filescount").val();
+                    $("#filescount").val(parseInt($("#filescount").val()) + 1);
+                    var newFile = '<div id="' + newFileId + '" class="file col-md-2">' +
+                        '<a data-toggle="title" title="' +
+                        newFileName +
+                        '" ' +
+                        'style="font-size: 40px;" ' +
+                        'href="' + msg + '" class=""><i class="fa"></i></a>' +
+                        '</div>';
+
+                    /*$("#your-files").effect("hide", 250, function () {
+                        $("#your-files").prepend(newFile).effects();
+                    });*/
+                    if ($("#your-files-nofiles").val() == 1) {
+                        $("#your-files").html("");
+                        $("#your-files").prepend(newFile);
+                        $("#your-files-nofiles").val(0);
+                    } else {
+                        $("#your-files").prepend(newFile);
+                    }
+
+                    $("#" + newFileId).effect("bounce", {}, 350);
+                    /*$('#your-files').fadeOut(function () {
+                        //$('#total-questions-bottom').slideUp();
+
+
+                    });*/
+
+                    /*$("#your-files").fadeIn("slow");*/
+                    /*$("#your-files").promise().done(function(){
+
+                    });*/
+                    //$("#your-files").slideUp(200).prepend(newFile).slideDown(200);
+                    $('input[type=file]').val('');
+                    $('button[type=submit]').prop('disabled', false);
+
+                });
+
+                // Called on failure of file upload
+                ajaxReq.fail(function (jqXHR) {
+                    $("#alertMsg").show();
+                    $("#progressBar").removeClass("progress-bar-success");
+                    $("#progressBar").addClass("progress-bar-danger");
+                    $('#alertMsg').removeClass("label-info");
+                    $('#alertMsg').addClass("label-danger");
+                    $('#alertMsg').html(jqXHR.responseText + '(' + jqXHR.status +
+                        ' - ' + jqXHR.statusText + ')');
+                    $('button[type=submit]').prop('disabled', false);
+                });
+            });
+        });
+        $("#chat-message").on("keydown", function (event) {
+            if (event.which == 13) {
+                if (!event.shiftKey)
+                    sendMessage($(this).val());
+            }
+        });
+        $("#chat-message").on("keyup", function (event) {
+            if (event.which == 13) {
+                if (!event.shiftKey)
+                    $(this).val('');
+            }
+        });
+
+    </script>
+</th:block>
+</body>

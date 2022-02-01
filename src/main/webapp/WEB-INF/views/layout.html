@@ -1,0 +1,95 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:fragment="htmlhead">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+
+    <title th:text="${@localeHelper.getTitle(null,null)}">(title)</title>
+
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <link rel="stylesheet" th:href="@{/resources/css/bootstrap.min.css}" type="text/css"/>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />-->
+</head>
+
+<body>
+<div th:fragment="navbar" class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/reg}">Registration</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a th:href="@{/wallet/create}">Create Wallet</a></li>
+                <li><a th:href="@{/wallet/send}">Send Wallet</a></li>
+                <li><a th:href="@{/g/home}">ghome</a></li>
+                <li><a th:href="@{/u/home}">uhome</a></li>
+                <li><a th:href="@{/admin/home}">ahome</a></li>
+                <li><a th:href="@{/u/sendmail}">Email</a></li>
+                <li><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="starter-template">
+        <h1>Spring MVC/Thymeleaf/Bootstrap</h1>
+        <p class="lead">(greeting)</p>
+    </div>
+</div>
+
+<div th:fragment="global-messages" class="messages">
+    <div style="margin-top:10px;">
+
+        <div class="alert alert-success" th:if="${alert_success!=null and !alert_success.empty}">
+            <p th:each="element : ${alert_success}" th:utext="${element}"><br/></p>
+        </div>
+        <div class="alert alert-danger" th:if="${alert_errors!=null and !alert_errors.empty}">
+            <span th:each="element : ${alert_errors}" th:utext="${element}"></span>
+        </div>
+        <div th:if="${alert_warnings!=null and !alert_warnings.empty}" class="alert alert-warning">
+            <span th:each="element : ${alert_warnings}" th:utext="${element}"></span>
+        </div>
+        <div th:if="${alert_notices!= null and !alert_notices.empty}" class="alert alert-info">
+            <span th:each="element : ${alert_notices}" th:utext="${element}"></span>
+        </div>
+
+        <!--<div class="alert alert-danger" th:if="${Alerts::getErrors() != null}" th:each="errors: ${Alerts::getErrors()}"></div>
+        <div class="alert alert-danger" th:each="infos: ${Alerts::getInfos()}"></div>
+        <div class="alert alert-danger" th:each="successes: ${Alerts::getSuccesses()}"></div>
+        <div class="alert alert-danger" th:each="warnings: ${Alerts::getWarnings()}"></div>-->
+    </div>
+
+</div>
+
+<div th:fragment="footer" id="footer">
+    <div class="container">
+        <p class="muted credit">Spring MVC/Thymeleaf/Bootstrap Project Template by Craig Walls.</p>
+    </div>
+    <script th:src="@{/resources/js/jquery-3.2.1.min.js}"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</div>
+
+</body>
+</html>

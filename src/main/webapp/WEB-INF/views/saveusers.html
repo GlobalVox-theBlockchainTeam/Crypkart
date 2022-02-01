@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<form action="#" th:action="@{/saveusers}" th:object="${user}" method="post">
+
+
+    <!--<ul>
+        <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+            <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+            <span th:text="${e.message}">The error message</span>
+        </li>
+    </ul>-->
+    <!--<form action="/save" method="post">-->
+    <input type="text" th:field="*{fullName}" placeholder="Name"/>
+    <input type="text" th:field="*{username}" placeholder="User name"/>
+    <input type="text" th:field="*{email}" placeholder="Email"/>
+    <input type="text" th:field="*{password}" placeholder="Password"/>
+    <input type="submit" value="Save" />
+
+
+
+</form>
+</body>
+</html>

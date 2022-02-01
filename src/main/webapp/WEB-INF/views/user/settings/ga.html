@@ -1,0 +1,131 @@
+<!--
+  ~ Copyright (c) 20/4/18 12:53 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:fragment="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-12 wallet-left">
+            <!--<div th:include="layout/wallet/qrcode :: barcode" class="panel panel-default"></div>-->
+            <div th:include="layout/wallet/menu :: walletMenu"></div>
+        </div>
+        <div class="col-md-12 wallet-right">
+            <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Edit Personal Details
+                </div>
+                <div class="panel-body">
+
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+
+                        </div>
+                        <div class="col-md-4 center-block">
+                            <img th:src="${url}" style="width: 100%;"/>
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+
+                        <div class="col-md-12 center-block" style="text-align: center">
+                            <form th:action="@{/user/ga/disable}" th:if="${user.googleAuthenticatorKey!=null}">
+                                <!--<span th:text="${secretkey  }"></span>-->
+                                <input type="hidden" name="secretkey" th:value="${secretkey}">
+                                <hr/>
+                                <div class="">
+                                    <a th:href="@{/user/ga/change}" class="btn btn-verify btn-primary   no-loading">Change</a>
+
+
+                                    <a th:href="@{/user/ga/verify}" class="btn-verify btn btn-warning  no-loading">Verify
+                                        Code</a>&nbsp;<a th:href="@{/user/ga/disable}" class="btn-verify btn btn-warning  no-loading">Disable</a>
+
+                                </div>
+                            </form>
+                            <form th:action="@{/user/ga/save}" th:if="${user.googleAuthenticatorKey==null}">
+                                <!--<span th:text="${secretkey}"></span>-->
+                                <input type="hidden" name="secretkey" th:value="${secretkey}">
+                                <hr/>
+                                <div class="">
+                                    <button class="btn btn-primary  " type="submit"
+                                            th:if="${user.googleAuthenticatorKey==null}">Enable
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--<div class="panel panel-default">
+        <div class="panel-body">
+            This trade was expired. You cant take any action more.
+        </div>
+    </div>-->
+</div>
+
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(":checkbox").labelauty();
+        $(":radio").labelauty();
+    });
+
+    $(".btn-verify").on("click", function (e) {
+        e.preventDefault();
+        var act = $(this).attr("href");
+        $.confirm({
+            title: 'Google Authentication!',
+            content: '' +
+            '<form action="' + act + '" class="verificationForm" method="GET">' +
+            '<div class="form-group">' +
+            '<label>Enter Current Verification Code</label>' +
+            '<input type="text" placeholder="Verification Code" name="code" class="form-control" value=""  required  /><br/>' +
+            '</div>' +
+            '</form>',
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        this.$content.find('.verificationForm').submit();
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+        });
+    });
+</script>
+</body>
+</html>

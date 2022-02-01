@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<div class="container-fluid page-title">
+    <div class="row blue-banner">
+        <div class="container main-container">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2 class="white-heading"><i class="fa fa-user"></i> <b th:text="${user.username}"></b>
+                    <!--<small style="color:#fff;">- Last seen 1 week ago</small>-->
+                    <i th:if="${user.lastSeenAt!=null}" style="font-size: 10px;" th:text="${'Last seen : ' + T(com.gradle.util.TimeAgo).getUserLastSeen(user)}"></i>
+                </h2>
+                <h4 style="color:#fff;"><i class="fa fa-globe"></i> <span th:text="${#lists.size(user.advertiseList)}"
+                                                                          th:remove="tag"></span> advertisements, <i
+                        class="fa fa-refresh"></i> <span th:text="${#lists.size(user.tradeList)}"
+                                                         th:remove="tag"></span> trades</h4>
+                <a class="btn btn-primary-anti btn-sm" th:href="@{'/user/report/' + ${@pathVariableEnc.encrypt(user.id)}}"><i class="fa fa-flag"></i> Report User</a>
+            </div>
+            <small>
+            </small>
+        </div>
+        <small>
+        </small>
+    </div>
+</div>
+<!--header section -->
+<!-- full width section -->
+<div class="container-fluid white-bg profile-page">
+    <div class="row">
+        <div class="container">
+            <div class="">
+                <div class="content">
+                    <div class="">
+                        <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h3 th:text="#{User.profile.advertise.title}"></h3>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th th:text="#{User.profile.advertise.table.column.type}"></th>
+                                            <th th:text="#{User.profile.advertise.table.column.method}"></th>
+                                            <th th:text="#{User.profile.advertise.table.column.price}"></th>
+                                            <th th:text="#{User.profile.advertise.table.column.limits}"></th>
+                                            <th >
+                                                <div class="pull-right" th:text="#{User.profile.advertisement.table.column.create.trade}">
+                                                </div>
+                                            </th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody style="font-size: 14px;">
+                                        <tr th:each="advertise : ${user.advertiseList}">
+                                            <td th:text="${advertiseStat.index+1}"></td>
+                                            <td th:text="${advertise.advertisementType.value}"></td>
+                                            <td th:text="${advertise.paymentType.paymentTypeName}"></td>
+                                            <td th:text="${advertise.btcRate}"></td>
+                                            <td th:text="${advertise.minLimit + ' - ' + advertise.maxLimit}"></td>
+                                            <td>
+                                                <div class="pull-right">
+                                                <a class="btn btn-sm btn-primary"
+                                                   th:href="@{'/trade/' + ${@pathVariableEnc.encrypt(advertise.id)}}"
+                                                   th:utext="#{label.create}"></a>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span>Feedbacks</span>
+                                </div>
+                                <div class="panel-body row">
+                                    <div class="col-md-12">
+                                    <span class="text text-success">
+                                    <i class="fa fa-smile-o"></i>
+                                    <span th:remove="tag" th:text="${feedbacks[0]}+' Positive Feedback'"></span>
+                                    </span>
+                                    </div>
+                                    <div class="col-md-12">
+                            <span class="text text-warning"><i class="fa fa-meh-o"></i>
+                                                <span th:remove="tag"
+                                                      th:text="${feedbacks[1]}+' Neutral Feedback'"></span>
+                                            </span>
+                                    </div>
+                                    <div class="col-md-12">
+                            <span class="text text-danger"><i class="fa fa-frown-o"></i>
+                                                    <span th:remove="tag"
+                                                          th:text="${feedbacks[2]}+' Negative Feedback'"></span>
+                                                </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span>Release Times</span>
+                                </div>
+                                <div class="panel-body small-text" >
+                                    <div th:text="${'Avg Time : ' + avgTime + ' : Minutes'}"></div>
+                                    <div th:text="${'Min Time : ' + minTime + ' : Minutes'}"></div>
+                                    <div th:text="${'Max Time : ' + maxTime + ' : Minutes'}"></div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <span>Average Trade</span>
+                                </div>
+                                <div class="panel-body small-text" >
+                                    <div th:text="${'Avg Sell :  ' + T(com.gradle.util.Common).formateBitcoinAmount(averageSell) }"></div>
+                                    <div th:text="${'Min Buy :  ' + T(com.gradle.util.Common).formateBitcoinAmount(averageBuy) }"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="panel panel-default">
+                            <div class="panel-body">
+                                This trade was expired. You cant take any action more.
+                            </div>
+                        </div>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+
+</body>
+</html>

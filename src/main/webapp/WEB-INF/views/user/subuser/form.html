@@ -1,0 +1,95 @@
+<!--
+  ~ Copyright (c) 25/4/18 11:34 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:fragment="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-12 wallet-left">
+            <!--<div th:include="layout/wallet/qrcode :: barcode" class="panel panel-default"></div>-->
+            <div th:include="layout/wallet/menu :: walletMenu"></div>
+        </div>
+        <div class="col-md-12 wallet-right">
+            <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span th:text="#{User.subuser.label.form}"></span>
+                </div>
+                <div class="panel-body">
+                    <form th:object="${user}" th:action="@{/subuser/create}" method="post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" placeholder="Name" th:field="*{firstName}" class="form-control"/>
+                                <p th:if="${#fields.hasErrors('firstName')}" class="label label-danger" th:errors="*{firstName}"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" data-type="username" placeholder="Username" th:field="*{username}" class="form-control duplicate"/>
+                                <p th:if="${#fields.hasErrors('username')}" class="label label-danger"
+                                   id="duplicate_username1"
+                                   th:errors="*{username}">
+                                    Incorrect LP</p>
+                                <p class="" id="duplicate_username" style="display: none;"></p>
+                            </div>
+
+                            <div class="col-md-4">
+                                <input type="text" data-type="email" placeholder="Email" th:field="*{email}" class="form-control duplicate"/>
+                                <p id="duplicate_email1" th:if="${#fields.hasErrors('email')}"
+                                   class="label label-danger"
+                                   th:errors="*{email}">Incorrect
+                                    LP</p>
+                                <p class="" id="duplicate_email" style="display: none;"></p>
+                            </div>
+                            <div class="col-md-12">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <!--<label>Status</label>-->
+                                    <input aria-label="Status of your advertise" th:attr="data-labelauty='Enable'"
+                                           type="checkbox" th:field="*{enabled}" th:value="${{enabled}}" class="" data-on-color="warning">
+                                    <p th:if="${#fields.hasErrors('status')}" class="label label-danger"
+                                       th:errors="*{status}">
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="pull-right">
+                                    <a class="btn btn-warning btn-sm" th:href="@{/subuser/list}">Back</a>
+                                    <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(":checkbox").labelauty();
+        $(":radio").labelauty();
+    });
+</script>
+</body>

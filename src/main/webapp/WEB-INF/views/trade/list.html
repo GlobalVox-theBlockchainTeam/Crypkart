@@ -1,0 +1,280 @@
+<!--
+  ~ Copyright (c) 16/3/18 2:56 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:fragment="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+    <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-12 wallet-left">
+            <!--<div th:include="layout/wallet/qrcode :: barcode" class="panel panel-default"></div>-->
+            <div th:include="layout/wallet/menu :: walletMenu"></div>
+        </div>
+        <div class="col-md-12 wallet-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span th:text="#{trade.incoming.trades.lable}"></span>
+                    <a th:if="${#lists.size(tradeList) > 0}" th:href="@{/trade/download/csv}" class="btn btn-primary  pull-right no-loading">Download As
+                        CSV</a>
+
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-tabs">
+
+                        <li th:classappend="${listType=='all' ? 'active' : ''}"><a
+                                th:href="@{/trade/list/all}" th:text="All"></a></li>
+                        <li th:classappend="${listType=='process' ? 'active' : ''}"><a
+                                th:href="@{/trade/list/process}" th:text="Processing"></a></li>
+                        <li th:classappend="${listType=='completed' ? 'active' : ''}"><a
+                                th:href="@{/trade/list/completed}" th:text="Completed"></a></li>
+                        <li th:classappend="${listType=='cancelled' ? 'active' : ''}"><a
+                                th:href="@{/trade/list/cancelled}" th:text="Cancelled"></a></li>
+                    </ul>
+
+                    <div class="col-mid-12">
+                        <br/>
+                    </div>
+                    <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th th:text="#{trade.id.lable}"></th>
+                            <th th:text="#{trade.buyer.lable}"></th>
+                            <th th:text="#{trade.seller.lable}"></th>
+                            <th th:text="#{trade.created.lable}"></th>
+                            <th th:text="#{trade.btc.rate}"></th>
+                            <th th:text="#{trade.pay.method.lable}"></th>
+                            <th th:text="#{trade.amount.lable}"></th>
+                            <!--<th width="10%">Bitcoin Price</th>-->
+                            <th th:text="#{trade.bitcoin.lable}"></th>
+                            <th th:text="#{trade.bitcoin.commission.lable}"></th>
+
+                            <th th:text="#{trade.status.lable}"></th>
+                            <!--<th th:text="#{trade.action.lable}"></th>-->
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="trade : ${tradeList}">
+                            <td th:text="${tradeStat.index+1}"></td>
+                            <td>
+                                <a th:text="${trade.buyer.username}"
+                                   th:href="@{'/user/profile/' + ${trade.buyer.username}}"
+                                ></a>
+                            </td>
+                            <td>
+                                <a th:text="${trade.seller.username}"
+                                   th:href="@{'/user/profile/' + ${trade.seller.username}}"
+                                ></a>
+                            </td>
+                            <td th:text="${T(com.gradle.util.Common).getTimeInUserSpecificZone(trade.createdAt,user)}"></td>
+                            <td th:text="${trade.advertise.currency.currencyCode + ' ' +trade.advertise.btcRate}"></td>
+                            <td th:text="${trade.advertise.paymentType.paymentTypeName}"></td>
+                            <!--<td th:utext="${trade.advertise.amount}"></td>-->
+                            <td th:text="${trade.amount}"></td>
+                            <td th:text="${trade.btcAmount}"></td>
+                            <td th:if="${#lists.size(trade.escrowSet)>0}" th:text="${T(com.gradle.util.Common).formateBitcoinAmount(trade.escrowSet[0].commisionAmount)}"></td>
+                            <td th:if="${#lists.size(trade.escrowSet)<=0}" >-</td>
+
+
+
+                            <!--<td>
+
+                                <div class="row-area" style="height:30px;">
+                                    <button type="button" class="btn  btn-danger btn-disabled"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_DEAD}"
+                                            th:text="${'Dead'}"></button>
+                                    <button type="button" class="btn  btn-info btn-disabled"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED}"
+                                            th:text="${'Completed'}"></button>
+                                    <button type="button" class="btn  btn-danger btn-disabled"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_CANCELLED}"
+                                            th:text="${'Cancelled'}"></button>
+                                    <button type="button" class="btn  btn-warning btn-disabled"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_INPROCESS}"
+                                            th:text="${'In Proccess'}"></button>
+                                    <button type="button" class="btn  btn-warning"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_PAYMENT_SENT}"
+                                            th:text="${'Payment Sent'}"></button>
+                                    <button type="button" class="btn  btn-warning"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_PAYMENT_RECEIVED}"
+                                            th:text="${'Payment Received'}"></button>
+                                    <button type="button" class="btn  btn-warning"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_RELEASED}"
+                                            th:text="${'Bitcoin Released'}"></button>
+                                    <button type="button" class="btn  btn-warning"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_ESCROWED}"
+                                            th:text="${'Bitcoin Escrowed'}"></button>
+                                </div>
+                                <br/>
+                            </td>-->
+
+                            <td>
+                                <!--th:if="${trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED
+                                &&
+                                trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_CANCELLED
+                                }"-->
+                                <a th:href="@{'/trade/process/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+
+                                   title="Process"
+                                >
+                                    <!--<button class="btn  btn-primary"
+                                            th:text="#{trade.process.button}"
+                                    >Process
+                                    </button>-->
+
+                                    <div class="row-area">
+                                        <button type="button" class="btn  btn-danger btn-disabled"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_DEAD}"
+                                                th:text="${'Dead'}"></button>
+                                        <button type="button" class="btn btn-success pull-right"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED}"
+                                                th:text="${'Completed'}"></button>
+                                        <button type="button" class="btn  btn-danger btn-disabled"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_CANCELLED}"
+                                                th:text="${'Cancelled'}"></button>
+                                        <button type="button" class="btn  btn-warning btn-disabled"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_INPROCESS}"
+                                                th:text="${'In Proccess'}"></button>
+                                        <button type="button" class="btn  btn-warning"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_PAYMENT_SENT}"
+                                                th:text="${'Payment Sent'}"></button>
+                                        <button type="button" class="btn  btn-warning"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_PAYMENT_RECEIVED}"
+                                                th:text="${'Payment Received'}"></button>
+                                        <button type="button" class="btn  btn-warning"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_RELEASED}"
+                                                th:text="${'Bitcoin Released'}"></button>
+                                        <button type="button" class="btn  btn-warning"
+                                                th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_ESCROWED}"
+                                                th:text="${'Bitcoin Escrowed'}"></button>
+                                    </div>
+
+                                </a>
+                                <th:block
+                                        th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED }">
+                                    <a th:if="${(trade.advertise.user.id==user.id && !trade.feedbackFromAdvertiser) or (trade.user.id==user.id && !trade.feedbackFromTrader)}"
+                                       th:href="@{'/user/feedback/'+${@pathVariableEnc.encrypt(trade.id)}}"
+                                    >
+                                        <button class="btn  btn-primary"
+                                                th:text="#{trade.feedback.button}"
+                                                data-toggle="tooltip"
+                                                th:title="'Give feed back to user'"
+                                        >Feedback
+                                        </button>
+                                    </a>
+                                </th:block>
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    </div>
+                    <div th:include="layout/pagingwithrecords :: pagingnavigation">
+
+                    </div>
+                </div>
+            </div>
+            <!--<div class="panel panel-default">
+                <div class="panel-heading"
+                     th:text="#{trade.outgoing.trades.lable}">
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th th:text="#{trade.id.lable}"></th>
+                            <th th:text="#{trade.trader.lable}"></th>
+                            <th th:text="#{trade.adtype.lable}"></th>
+                            <th th:text="#{trade.pay.method.lable}"></th>
+                            <th th:text="#{trade.amount.lable}"></th>
+                            &lt;!&ndash;<th width="10%">Bitcoin Price</th>&ndash;&gt;
+                            <th th:text="#{trade.bitcoin.lable}"></th>
+                            <th th:text="#{trade.status.lable}"></th>
+                            <th th:text="#{trade.action.lable}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr th:each="trade : ${outgoingTradeList}">
+                            <td th:utext="${tradeStat.index+1}"></td>
+                            <td th:utext="${trade.advertise.user.username}"></td>
+                            <td th:utext="${trade.advertise.adType.value}"></td>
+                            <td th:utext="${trade.advertise.paymentType.paymentTypeName}"></td>
+                            &lt;!&ndash;<td th:utext="${trade.advertise.amount}"></td>&ndash;&gt;
+                            <td th:utext="${trade.amount}"></td>
+                            <td th:utext="${trade.btcAmount}"></td>
+                            <td>
+
+
+                                <div class="row-area" style="height:30px;">
+                                    <button type="button" class="btn  btn-danger btn-disabled"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_DEAD}"
+                                            th:utext="${'Dead'}"></button>
+                                    <button type="button" class="btn  btn-info btn-disabled"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED}"
+                                            th:utext="${'Completed'}"></button>
+                                    <button type="button" class="btn  btn-warning btn-disabled"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_INPROCESS}"
+                                            th:utext="${'In Proccess'}"></button>
+                                    <button type="button" class="btn  btn-warning"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_PAYMENT_SENT}"
+                                            th:utext="${'Payment Sent'}"></button>
+                                    <button type="button" class="btn  btn-warning"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_PAYMENT_RECEIVED}"
+                                            th:utext="${'Payment Received'}"></button>
+                                    <button type="button" class="btn  btn-warning"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_BITCOIN_RELEASED}"
+                                            th:utext="${'Bitcoin Released'}"></button>
+                                </div>
+                            </td>
+                            <td>
+                                <a th:href="@{'/trade/process/' + ${@pathVariableEnc.encrypt(trade.id)}}"
+                                   title="Process">
+                                    <button class="btn  btn-primary"
+                                            th:text="#{trade.process.button}"
+                                            th:if="${trade.tradeStatus.statusCode!=T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED}"
+                                    >Process
+                                    </button>
+                                    <button class="btn  btn-primary"
+                                            th:text="#{trade.view.button}"
+                                            th:if="${trade.tradeStatus.statusCode==T(com.gradle.util.constants.ConstantProperties).TRADE_STATUS_COMPLETED}"
+                                    >
+                                    </button>
+
+                                </a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+</div>
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+</body>

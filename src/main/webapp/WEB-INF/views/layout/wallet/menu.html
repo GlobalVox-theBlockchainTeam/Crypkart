@@ -1,0 +1,185 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<div class="list-group" th:fragment="walletMenu">
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#top-navigation" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="top-navigation">
+                    <ul class="nav navbar-nav">
+                        <li class=""
+                            th:classappend="${(@localeHelper.getServletPaht() == '/wallet/home') ? 'active' : ''}">
+                            <a th:href="@{/wallet/home}">
+                                <i class="fa fa-bitcoin"></i> <span th:text="#{wallet.menu.wallet}"></span>
+                            </a>
+                        </li>
+
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')">
+                            <li class=""
+                                th:classappend="${(@localeHelper.getServletPaht().contains('advertise') && !@localeHelper.getServletPaht().contains('trade')) ?  'active' : ''}">
+                                <a th:href="@{/advertise/list}"
+                                >
+                                    <i class="fa fa-globe"></i> <span th:text="#{wallet.menu.advertisements}"></span>
+                                </a>
+                            </li>
+                        </th:block>
+                        <th:block sec:authorize="hasRole('ROLE_SUB_USER')">
+                            <li class=""
+                                th:classappend="${(@localeHelper.getServletPaht().contains('advertise') && !@localeHelper.getServletPaht().contains('trade')) ?  'active' : ''}">
+                                <a th:href="@{/trade/ad/list}"
+                                >
+
+                                    <i class="fa fa-globe"></i> <span th:text="#{wallet.menu.advertisements}"></span>
+
+                                </a>
+                            </li>
+                        </th:block>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle no-loading" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false"><span th:remove="tag"
+                                                                                th:text="#{wallet.menu.transactions}"></span>
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a th:href="@{/trade/list}"
+
+                                    >
+                                        <i class="fa fa-refresh"></i> <span th:text="#{wallet.menu.trades}"></span>
+
+                                    </a>
+                                </li>
+                                <th:block sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')">
+                                    <li class="">
+                                        <a th:href="@{/wallet/external/transfer/list}"
+
+                                        >
+                                            <i class="fa fa-refresh"></i> <span
+                                                th:text="#{wallet.menu.direct.external}"></span>
+                                        </a>
+                                    </li>
+                                </th:block>
+                                <li class="">
+                                    <a th:href="@{/wallet/internal/transfer/list}"
+
+                                    >
+                                        <i class="fa fa-refresh"></i> <span
+                                            th:text="#{wallet.menu.direct.internal}"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li class=""
+                            th:classappend="${(@localeHelper.getServletPaht().contains('forum')) ?  'active' : ''}">
+                            <a th:href="@{/forum/home}"
+
+                            >
+                                <i class="fa fa-comments"></i> <span th:text="#{wallet.menu.forum}"></span>
+
+
+                            </a>
+                        </li>
+                        <li class=""
+                            th:classappend="${(@localeHelper.getServletPaht().contains('feedback')) ?  'active' : ''}">
+
+                            <a th:href="@{/user/feedbacks}"
+
+                            >
+                                <i class="fa fa-star"></i> <span th:text="#{wallet.menu.feedbacks}"></span>
+
+                            </a>
+                        </li>
+                        <li class=""
+                            th:classappend="${(@localeHelper.getServletPaht().contains('user/report')) ?  'active' : ''}">
+
+                            <a th:href="@{/user/reported/users}"
+
+                            >
+                                <i class="fa fa-flag"></i> <span th:text="Reported"></span>
+
+                            </a>
+                        </li>
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')">
+
+                            <li class="dropdown">
+                                <a href="javascript:void(0)" class="no-loading dropdown-toggle" data-toggle="dropdown"
+                                   role="button" aria-haspopup="true" aria-expanded="false">
+                                    <span th:remove="tag" th:text="#{wallet.menu.setting}"></span> <span
+                                        class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="">
+                                        <a th:href="@{/subuser/list}"
+
+                                        >
+                                            <i class="fa fa-refresh"></i> <span th:text="'Sub Users'"></span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a th:href="@{/user/settings}"
+
+                                        >
+                                            <i class="fa fa-refresh"></i> <span th:text="'Profile'"></span>
+
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a th:href="@{/user/phone/verification}"
+
+                                        >
+                                            <i class="fa fa-refresh"></i> <span th:text="'Verify Phone'"></span>
+
+
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a th:href="@{/user/ga}"
+
+                                        >
+                                            <i class="fa fa-refresh"></i> <span th:text="'Google TOTP'"></span>
+
+
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                        </th:block>
+                        <li>
+                            <a class="no-loading qrcode" onclick="$.alert($('#qrcode-div').html());">
+                                <i class="fa fa-qrcode "></i>
+                            </a>
+                            <div id="qrcode-div" style="display: none;">
+                                <div th:include="layout/wallet/qrcode :: barcode" class="panel panel-default"></div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div><!-- /.navbar-collapse -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+</div>

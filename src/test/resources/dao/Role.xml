@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<dataset>
+    <Roles id="1" role_name="ROLE_ADMIN"  />
+    <Roles id="2" role_name="ROLE_USER"  />
+</dataset>

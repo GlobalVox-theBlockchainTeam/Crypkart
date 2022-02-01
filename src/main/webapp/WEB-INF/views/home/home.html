@@ -1,0 +1,143 @@
+<!--
+  ~ Copyright (c) 16/3/18 6:14 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<!--<head th:include="layout/header :: htmlheadbase" th:with="title='Hello'"></head>-->
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image" onload="getLocation()">
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB-0GnPGxIpwp9w7RIqqwifszyVbVvYXTc"></script>
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+<!-- Page Title-->
+<!--<div class="container-fluid blue-banner page-title bg-image">
+
+</div>-->
+<!-- Page Title-->
+<div class="jobs_filters" id="top-quick-ad-search" style="position:fixed;margin-top:117px;width:100%;z-index: 1040">
+    <div class="container">
+        <div th:include="layout/search :: topsearch" th:remove="tag">
+        </div>
+    </div>
+</div>
+<div style="min-height:310px;">
+</div>
+<div class="container">
+    <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+</div>
+
+<div th:if="${totalAdvertisement==0}" class="container">
+
+    <h1 th:text="#{Home.welcome.text}">
+
+    </h1>
+
+
+</div>
+<div class="container main-container list-style3" th:if="${!advertisementList.isEmpty()}">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tab_filters">
+                <div class="col-lg-4">
+
+                    <h5 th:utext="#{Home.label.bitcoin.buy}"></h5>
+                    <img th:src="${url}"/>
+                    <span th:text="${key}"></span>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 filters pull-right filter-category">
+                    <div class="col-lg-12">
+                        <ul class="nav nav-pills pull-right">
+                            <!--<li class="web-designer" th:classappend="${ptypeId==searchPaymentType.id} ? 'active' : ''"
+                                th:each="searchPaymentType : ${searchPaymentTypes}"><a
+                                    th:href="@{/advertise/buy/} + ${searchPaymentType.id}"
+                                    th:text="${searchPaymentType.paymentTypeName}+' ('+ ${searchPaymentType.count}+')'"></a>
+                            </li>-->
+
+                            <th:block th:each="ad1 : ${advertiseListCountSell}" th:if="${ad1[1]>0}">
+                                <li class="web-designer">
+                                    <a th:href="@{/advertise/buy/} + ${ad1[0].id}"
+                                       th:text="${ad1[0].paymentTypeName}+' ('+ ${ad1[1]}+')'"></a>
+                                </li>
+                            </th:block>
+
+                            <li th:classappend="${ptypeId==0} ? 'active' : ''" class="all"><a
+                                    th:href="@{/advertise/buy/} + '0'" th:utext="#{Home.label.search.all}"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div th:include="layout/jobresultsell :: jobresult" class="jobs-result" >
+            </div>
+            <!--Search Result 01-->
+        </div>
+    </div>
+</div>
+
+<div class="container main-container list-style3" th:if="${!advertisementBuyList.isEmpty()}">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tab_filters">
+                <div class="col-lg-4">
+                    <h5 th:utext="#{Home.label.sell.bitcoin.to}"></h5>
+                </div>
+
+                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 filters pull-right filter-category">
+                    <div class="col-lg-12">
+                        <ul class="nav nav-pills pull-right">
+                            <!--<li class="web-designer" th:classappend="${ptypeId==searchPaymentType.id} ? 'active' : ''"
+                                th:each="ad1 : ${advertiseList1}"-->
+
+                            <th:block th:each="ad1 : ${advertiseListCountBuy}" th:if="${ad1[1]>0}">
+                                <li class="web-designer" th:classappend="${ptypeId==ad1[0].id} ? 'active' : ''">
+                                    <a th:href="@{/advertise/sell/} + ${ad1[0].id}"
+                                       th:text="${ad1[0].paymentTypeName}+' ('+ ${ad1[1]}+')'"></a>
+                                </li>
+                            </th:block>
+
+                            <li th:classappend="${ptypeId==0} ? 'active' : ''" class="all"><a
+                                    th:href="@{/advertise/sell/} + '0'" th:utext="#{Home.label.search.all}"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div th:include="layout/jobresultbuy :: buyjobresult" class="jobs-result">
+            </div>
+            <!--Search Result 01-->
+        </div>
+    </div>
+</div>
+
+<!---full width sectio fulid-->
+
+<!---full width sectio fulid-->
+
+</div>
+
+
+<!-- Blue Banner-->
+<div class="container-fluid blue-banner">
+    <div class="row">
+        <div class="container main-container v-middle">
+            <div class="col-lg-10 col-md-8 col-sm-8 col-xs-12 ">
+                <h3 class="white-heading"><span th:utext="#{Home.label.earn.money}" th:remove="tag"></span> <span
+                        th:utext="#{Home.label.start.trading.bitcoin}"></span></h3>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12 no-padding-left">
+                <a th:href="@{/login}" class="btn btn-getstarted bg-red">get started now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+
+</body>

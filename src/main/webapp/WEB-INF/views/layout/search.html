@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<div th:fragment="topsearch">
+    <form th:action="@{/advertise/search}" method="POST" th:object="${searchForm}">
+        <!--col-lg-3 filter_width -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h3 class="white-heading" style="font-size:30px;" th:utext="#{Home.label.bitcoin.buysell}"></h3>
+            <br>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 filter_width bgicon">
+            <div class="form-group">
+                <select class="form-control" name="type">
+                    <option value="Buy" th:utext="#{header.menu.buybitcoins}"></option>
+                    <option value="Sell" th:utext="#{header.menu.sellbitcoins}"></option>
+
+                </select>
+            </div>
+        </div>
+        <!--col-lg-3 filter_width -->
+
+        <!-- col-lg-5 filter_width -->
+        <!--<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 filter_width bgicon">
+            <div class="form-group">
+                <input type="text" class="form-control form_style_1 input-lg" name="amount" placeholder="Amount">
+                <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+            </div>
+        </div>-->
+        <!-- col-lg-5 filter_width -->
+
+
+
+        <!--th:selected="${user!=null && user.currency!=null && user.currency.currencyCode==currency.currencyCode}"-->
+
+        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12 filter_width bgicon location">
+
+            <div class="form-group" th:with="selectedCurrency=${(searchCurrency!=null) ? searchCurrency.currencyCode : @serviceUtil.getCurrentCurrency(#request).currencyCode}">
+                <select class="form-control" name="currencyId">
+
+                    <option th:each="currency : ${currencies}" th:value="${currency.id}"
+                            th:selected="${selectedCurrency==currency.currencyCode}"
+                            th:text="${currency.currencyCode} + ' - ' +${currency.currencyName}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 filter_width bgicon location">
+            <div class="form-group">
+                <select class="form-control" name="paymentTypeId">
+                    <option th:each="type : ${paymentTypeList}" th:value="${{type}}"
+                            th:text="${type.paymentTypeName}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-6 col-xs-12 filter_width bgicon submit">
+            <div class="form-group">
+                <button type="submit" class="customsubmit top-search-submit  fa fa-search form-control" > </button>
+                <!--<input type="submit" class="customsubmit" name="submit" value="Search"/>-->
+
+            </div>
+        </div>
+    </form>
+</div>

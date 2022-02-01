@@ -1,0 +1,43 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<div class="list-group" th:fragment="walletMenu">
+    <!--<span th:text="${@localeHelper.getServletPaht()}"></span>-->
+    <!--<a th:href="@{/wallet/create}" th:classappend="${(@localeHelper.getServletPaht() == '/wallet/create') ?  'active' : ''}" class="list-group-item"><i class=" fa fa-google-wallet"></i> Create
+        Wallet</a>-->
+    <!--<a th:href="@{/wallet/refresh}" class="list-group-item "><i class="fa fa-bitcoin"></i> Refresh
+        Wallet</a>-->
+    <a th:href="@{/wallet/home}" th:classappend="${(@localeHelper.getServletPaht() == '/wallet/home') ? 'active' : ''}"
+       class="list-group-item"><i class="fa fa-bitcoin"></i>
+        <span th:text="${@localeHelper.getTemplateProperties('wallet.menu.wallet',null,'Wallet')}"></span>
+    </a>
+    <a th:href="@{/wallet/list}" th:classappend="${(@localeHelper.getServletPaht() == '/wallet/list') ?  'active' : ''}"
+       class="list-group-item"><i class="fa fa-exchange"></i>
+        <span th:text="${@localeHelper.getTemplateProperties('wallet.menu.transactions',null,'Transactions')}"></span>
+    </a>
+    <a th:href="@{/advertise/list}"
+       th:classappend="${(@localeHelper.getServletPaht().contains('advertise') && !@localeHelper.getServletPaht().contains('trade')) ?  'active' : ''}"
+       class="list-group-item"><i class="fa fa-globe"></i>
+        <span th:text="${@localeHelper.getTemplateProperties('wallet.menu.advertisements',null,'Advertisements')}"></span>
+    </a>
+    <a th:href="@{/trade/list}"
+       th:classappend="${(@localeHelper.getServletPaht().contains('trade')) ?  'active' : ''}"
+       class="list-group-item"><i class="fa fa-refresh"></i>
+        <span th:text="${@localeHelper.getTemplateProperties('wallet.menu.trades',null,'Trades')}"></span>
+    </a>
+    <a th:href="@{/forum/home}" class="list-group-item"
+       th:classappend="${(@localeHelper.getServletPaht().contains('forum')) ?  'active' : ''}"
+    ><i class="fa fa-cogs"></i>
+
+        <span th:text="${@localeHelper.getTemplateProperties('wallet.menu.forum',null,'Forum')}"></span></a>
+    <a href="account/settings" class="list-group-item"><i class="fa fa-cogs"></i>
+        <span th:text="${@localeHelper.getTemplateProperties('wallet.menu.setting',null,'Settings')}"></span></a>
+
+    <a href="account/verification" class="list-group-item"><i class="fa fa-check"></i>
+        <span th:text="${@localeHelper.getTemplateProperties('wallet.menu.verification',null,'Verification')}"></span></a>
+</div>

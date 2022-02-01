@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+
+
+<!--header section -->
+<div class="container-fluid page-title">
+    <div class="row blue-banner">
+        <div class="container main-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <span style="color:#fff;font-size:35px;font-weight:bold;" th:utext="#{Trade.buy.label.advertisement}">#1</span><br/>
+                    <span style="color:#fff;font-size:25px;" th:utext="#{Trade.buy.label.buy.bitcoin.paypal}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--header section -->
+
+<div class="container-fluid white-bg">
+    <div class="row">
+        <div class="container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                        </div>
+                        <div class="col-md-8">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h3></a></h3>
+                                    <p>
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td><span class="text text-success"><i class="fa fa-smile-o"></i> 5 Positive Feedback</span>
+                                            </td>
+                                            <td><span class="text text-warning"><i class="fa fa-meh-o"></i> 3 Neutral Feedback</span>
+                                            </td>
+                                            <td><span class="text text-danger"><i class="fa fa-frown-o"></i> 2 Negative Feedback</span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default panel-blue">
+                                <div class="panel-body">
+                                    <h3></h3>
+                                    <br>
+                                    <form action="" method="POST">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg" placeholder="0.00"
+                                                           name="amount" id="amount"
+                                                           onkeyup="calculate_btc_amount(this.value);"
+                                                           onkeydown="calculate_btc_amount(this.value);">
+                                                    <span class="input-group-addon" id="basic-addon2">
+                                                    Currency
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-center"><i class="fa fa-refresh fa-3x"></i></div>
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control input-lg"
+                                                           placeholder="0.0000" name="btc_amount" id="btc_amount"
+                                                           onkeyup="calculate_amount(this.value);"
+                                                           onkeydown="calculate_amount(this.value);">
+                                                    <span class="input-group-addon" id="basic-addon2" th:utext="#{Trade.buy.label.addon.btc}"></span>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="type" value="sell">
+                                            <input type="hidden" name="ad_id" value="">
+                                            <input type="hidden" name="trader" value="">
+                                            <input type="hidden" name="btc_price" value="" id="btc_price">
+                                            <div class="col-md-12">
+                                                <br>
+                                                <center>
+
+                                                    <button type="submit" class="btn btn-warning btn-lg"
+                                                            name="btc_buy_bitcoins"><i class="fa fa-bitcoin"></i><span th:utext="#{Trade.buy.label.buy}" th:remove="tag"></span>
+                                                    </button>
+
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h3 th:utext="#{Trade.buy.label.require}"></h3>
+
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h3 th:utext="#{Trade.buy.label.terms.trade}">
+
+                                    </h3>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+</body>

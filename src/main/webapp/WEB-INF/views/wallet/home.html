@@ -1,0 +1,214 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="layout/header :: htmlheadbase" ></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+
+<!-- Page Title-->
+<div class="container-fluid page-title dashboard " th:include="layout/wallet/head :: walletHead"></div>
+<!-- Page Title-->
+
+<div class="container ex_padding" style="padding-top:20px;padding-bottom:20px;font-size:15px;">
+
+    <div class="row">
+        <div class="col-md-12">
+
+        </div>
+        <div class="col-md-12 wallet-left">
+            <div th:include="layout/wallet/menu :: walletMenu"></div>
+        </div>
+        <div class="col-md-12 wallet-right">
+            <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4 th:text="${@localeHelper.getTemplateProperties('wallet.pending.trades.title',null,'Pending Trades')}"></h4>
+                    <span th:text="${@localeHelper.getTemplateProperties('wallet.pending.trades.subtitle',null,'You will see your unfinished trades so you can easily manage them.')}"></span>
+                    <!--<div class="alert alert-info">No pending trades</div>-->
+                    <div class="panel panel-default" th:each="trans : ${pendingTransactionList}">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2 text-center">
+
+                                    <span  th:if="${trans.type == 'R'}" class="text text-success text-center">
+                                        <i class="fa fa-angle-double-down fa-2x"></i>
+                                        <br/>
+                                        <span th:text="${@localeHelper.getTemplateProperties('wallet.home.transaction.receiving',null,'Receiving')}"></span>
+                                    </span>
+                                    <span  th:if="${trans.type != 'R'}" class="text text-danger text-center">
+                                        <i class="fa fa-angle-double-up fa-2x"></i>
+                                        <br/>
+                                        <span th:text="${@localeHelper.getTemplateProperties('wallet.home.transaction.sending',null,'Sending')}"></span>
+                                    </span>
+
+                                    <br><br>
+                                    <span class="text-muted"><small></small></span>
+                                </div>
+                                <div class="col-md-10" style="overflow: auto">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <!--<tr th:each="trans : ${transactionSet}">
+                                            <td th:utext="${trans.getHashAsString()}"></td>
+                                        </tr>-->
+
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.transactions.title',null,'Transaction')}"></td>
+                                            <td>
+                                                <a target="_blank"
+                                                   th:href="'https://testnet.blockchain.info/tx/' + ${trans.transactionId}"
+                                                   th:text="${#strings.substring(trans.transactionId,0,50)} +'...'"></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.home.sender.field',null,'Sender')}"></td>
+                                            <td>
+                                                <span th:each="s : ${trans.sender}" th:text="${s} + '...<br/>'"></span><br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.home.receiver.field',null,'Receipient')}"></td>
+                                            <td>
+                                                <span th:each="r : ${trans.receiver}" th:text="${r} + '...<br/>'"></span><br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.home.amount.field',null,'Amount')}"></td>
+                                            <td>
+                                                <span th:each="v : ${trans.value}" th:text="${v} + '<br/>'"></span>
+                                            </td>
+                                        </tr>
+                                        <!--<tr>
+                                            <td>Time:</td>
+                                            <td>-</td>
+                                        </tr>-->
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default panel-blue">
+                <div class="panel-body">
+                    <h4 th:utext="#{Wallet.home.label.send.bitcoins}"></h4>
+                    <form th:action="@{/wallet/internal/transfer}" method="POST" id="sendbitcoinform" th:object="${internalTransferForm}" class="form">
+
+                        <div class="form-group">
+                            <label th:text="#{wallet.home.username.field}"></label>
+                            <input type="text" class="form-control" th:field="*{username}">
+                            <p th:if="${#fields.hasErrors('username')}" class="label label-danger"
+                               th:errors="*{username}">
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{wallet.home.email.field}"></label>
+                            <input type="text" class="form-control" th:field="*{email}">
+                            <p th:if="${#fields.hasErrors('email')}" class="label label-danger"
+                               th:errors="*{email}">
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{wallet.home.amount.field}"></label>
+                            <input type="text" class="form-control" th:field="*{btcAmount}" placeholder="0.0000000">
+                            <p th:if="${#fields.hasErrors('btcAmount')}" class="label label-danger"
+                               th:errors="*{btcAmount}">
+                            </p>
+                        </div>
+                        <hr/>
+                        <button type="submit" class="btn btn-warning pull-right" name="btc_send_bitcoins" th:utext="#{Wallet.home.label.send}"
+                        ></button>
+                        <!--<span class="pull-right">Minimul transaction fees: 0.0008 BTC</span>-->
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4 th:text="${@localeHelper.getTemplateProperties('wallet.transactions.latest.title',null,'Latest Transaction')}">Latest transactions</h4>
+                    <p th:text="${@localeHelper.getTemplateProperties('wallet.transactions.latest.subtitle',null,'Here will show your latest transactions of your wallet.')}"></p>
+
+                    <div class="panel panel-default" th:each="trans : ${transactionList}">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2 text-center">
+
+                                    <span  th:if="${trans.type == 'R'}" class="text text-success text-center">
+                                        <i class="fa fa-arrow-circle-o-down fa-2x"></i>
+                                        <br/>
+                                        <span th:text="${@localeHelper.getTemplateProperties('wallet.home.transaction.received',null,'Received')}"></span>
+                                    </span>
+                                    <span  th:if="${trans.type != 'R'}" class="text text-danger text-center">
+                                        <i class="fa fa-arrow-circle-o-up fa-2x"></i>
+                                        <br/>
+                                        <span th:text="${@localeHelper.getTemplateProperties('wallet.home.transaction.sent',null,'Sent')}"></span>
+                                    </span>
+
+                                    <br><br>
+                                    <span class="text-muted"><small></small></span>
+                                </div>
+                                <div class="col-md-10" style="overflow: auto">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                        <!--<tr th:each="trans : ${transactionSet}">
+                                            <td th:utext="${trans.getHashAsString()}"></td>
+                                        </tr>-->
+
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.transactions.title',null,'Transaction')}"></td>
+                                            <td>
+                                                <a target="_blank"
+                                                   th:href="'https://testnet.blockchain.info/tx/' + ${trans.transactionId}"
+                                                   th:text="${#strings.substring(trans.transactionId,0,50)} +'...'"></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.home.sender.field',null,'Sender')}"></td>
+                                            <td>
+                                                <span th:each="s : ${trans.sender}" th:text="${s} + '...<br/>'"></span><br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.home.receiver.field',null,'Receipient')}"></td>
+                                            <td>
+                                                <span th:each="r : ${trans.receiver}" th:text="${r} + '...<br/>'"></span><br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${@localeHelper.getTemplateProperties('wallet.home.amount.field',null,'Amount')}"></td>
+                                            <td>
+                                                <span th:each="v : ${trans.value}" th:text="${v} + '<br/>'"></span>
+                                            </td>
+                                        </tr>
+                                        <!--<tr>
+                                            <td>Time:</td>
+                                            <td>-</td>
+                                        </tr>-->
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+</body>

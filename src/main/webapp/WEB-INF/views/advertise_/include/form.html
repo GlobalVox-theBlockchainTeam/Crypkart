@@ -1,0 +1,300 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<form th:fragment="advertiseform" action="#" th:action="@{/advertise/edit/submit}" th:object="${advertise}"
+      method="post" th:id="advertise_form">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:text="#{Advertise.label.ad.type}"></label>
+                <select class="form-control" th:field="*{advertisementType}">
+                    <option th:each="aType : ${T(com.gradle.enums.advertisement.AdType).values()}"
+                            th:value="${aType}"
+                            th:text="${aType.value}">
+                    </option>
+                </select>
+                <p th:if="${#fields.hasErrors('advertisementType')}" class="label label-danger"
+                   th:errors="*{advertisementType}"></p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span class="text text-muted" th:text="#{Advertise.label.ad.type.info}"></span>
+        </div>
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:text="#{Advertise.label.payment.type}"></label>
+                <select th:field="*{paymentType}" class="form-control">
+                    <option th:each="type : ${paymentTypeList}" th:value="${{type}}"
+                            th:text="${type.paymentTypeName}"></option>
+                </select>
+                <p th:if="${#fields.hasErrors('paymentType')}" class="label label-danger"
+                   th:errors="*{paymentType}"></p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span class="text text-muted" th:text="#{Advertise.label.payment.method}"></span>
+        </div>
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:text="#{Advertise.label.currency}"></label>
+                <select th:field="*{currency}" class="form-control btcrate-change">
+
+                    <option th:each="curr : ${currencyList}" th:value="${{curr}}"
+                            th:attr="data-code=${curr.currencyCode}" th:data="${curr.currencyCode}"
+                            th:text="${curr.currencyName}"></option>
+                </select>
+                <p th:if="${#fields.hasErrors('currency')}" class="label label-danger" th:errors="*{currency}"></p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span class="text text-muted" th:text="#{Advertise.label.currency.info}"></span>
+        </div>
+        <!--<div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Enter Commision with %</label>
+                <input class="form-control " type="text" th:field="*{amount}" placeholder="Amount"/>
+                <p th:if="${#fields.hasErrors('amount')}" class="label label-danger" th:errors="*{amount}"></p>
+                <span id="your_btc_price"></span>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span class="text text-muted">Commision info</span>
+        </div>-->
+
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:text="#{Advertise.label.location}"></label>
+                <input class="form-control" type="text" th:field="*{tradeLocation}" placeholder="location"
+                       th:id="autocomplete" onchange="getLatLong()"/>
+
+                <p th:if="${#fields.hasErrors('tradeLocation')}" class="label label-danger"
+                   th:errors="*{tradeLocation}">
+                </p>
+                <input type="hidden" th:field="*{latitude}" th:id="latitude"/>
+                <input type="hidden" th:field="*{longitude}" th:id="longitude"/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.location.information}"></span>
+        </div>
+        <div class="col-md-12"><br></div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:utext="#{Advertise.label.margin}"></label>
+                <input class="form-control btcrate-change" type="text" th:field="*{margin}" placeholder="Margin"/>
+                <p th:if="${#fields.hasErrors('margin')}" class="label label-danger" th:errors="*{margin}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.margin.info}"></span>
+        </div>
+
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:utext="#{Advertise.label.price.equation}"></label>
+                <input class="form-control" type="text" th:field="*{priceEquation}" placeholder="Price Equation"/>
+                <p th:if="${#fields.hasErrors('priceEquation')}" class="label label-danger"
+                   th:errors="*{priceEquation}"></p>
+                <input class="form-control" type="hidden" th:field="*{visibleId}"/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.price.equation.info}"></span>
+        </div>
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:utext="#{Advertise.label.btc.rate}"></label>
+                <input class="form-control" type="text" th:field="*{btcRate}" placeholder="BTC Rate" th:id="btc"/>
+                <p th:if="${#fields.hasErrors('btcRate')}" class="label label-danger"
+                   th:errors="*{btcRate}"></p>
+                <span id="current_btc_rate" class="text text-info"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.btc.rate.currency}"></span>
+        </div>
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:utext="#{Advertise.label.min.limit}"></label>
+                <div class="input-group " style="clear: both;">
+                    <input class="form-control input-lg" type="text" th:field="*{minLimit}"
+                           placeholder="Minimum Limit"/>
+                    <span class="input-group-addon" id="basic-addon1" th:if="${(advertise.currency!=null)}" th:text="${advertise.currency.currencyCode}"></span>
+                    <span class="input-group-addon" id="basic-addon1" th:if="${(advertise.currency==null)}" th:utext="#{Advertise.label.aed}"></span>
+                </div>
+                <p th:if="${#fields.hasErrors('minLimit')}" class="label label-danger" th:errors="*{minLimit}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.min.limit.info}"></span>
+        </div>
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:utext="#{Advertise.label.max.limit}"></label>
+                <div class="input-group " style="clear: both;">
+                    <input class="form-control input-lg" type="text" th:field="*{maxLimit}"
+                           placeholder="Maximum Limit"/>
+                    <span class="input-group-addon" id="basic-addon1" th:if="${(advertise.currency!=null)}" th:text="${advertise.currency.currencyCode}"></span>
+                    <span class="input-group-addon" id="basic-addon1" th:if="${(advertise.currency==null)}" th:utext="#{Advertise.label.aed}"></span>
+                </div>
+                <p th:if="${#fields.hasErrors('maxLimit')}" class="label label-danger" th:errors="*{maxLimit}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.max.limit.info}"></span>
+        </div>
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label th:utext="#{Advertise.label.restricted.amounts}"></label>
+                <input class="form-control" type="text" th:field="*{restrictedAmounts}"
+                       placeholder="Restricted Amounts Only(comma separated)" autocomplete="false"/>
+                <p th:if="${#fields.hasErrors('restrictedAmounts')}" class="label label-danger"
+                   th:errors="*{restrictedAmounts}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.restricted.amounts.info}"></span>
+        </div>
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <!--<label>Status</label>-->
+                <input aria-label="Status of your advertise" th:attr="data-labelauty=#{Advertise.label.disabled}"  type="checkbox" th:field="*{status}" th:value="${{status}}" class="" data-on-color="warning">
+                <p th:if="${#fields.hasErrors('status')}" class="label label-danger"
+                   th:errors="*{status}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span
+                    class="text text-muted" th:utext="#{Advertise.label.enable.disable.advertise}"></span>
+        </div>
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <input type="checkbox" data-labelauty="Advertisement visible to all|Advertisement visible to trusted people only" th:field="*{trustedPeopleOnly}" th:value="${{trustedPeopleOnly}}" class="">
+                <p th:if="${#fields.hasErrors('trustedPeopleOnly')}" class="label label-danger"
+                   th:errors="*{trustedPeopleOnly}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span
+                    class="text text-muted" th:utext="#{Advertise.label.advertise.trusted.info}"></span>
+        </div>
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <!--<label>Phone verified people only</label>-->
+                <input data-labelauty="Advertisement visible to all|Advertisement visible to SMS verified people only" type="checkbox" th:field="*{smsVerificationRequired}" th:value="${{smsVerificationRequired}}"
+                       class="">
+                <p th:if="${#fields.hasErrors('smsVerificationRequired')}" class="label label-danger"
+                   th:errors="*{smsVerificationRequired}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span
+                    class="text text-muted" th:utext="#{Advertise.label.advertise.phone.info}"></span>
+        </div>
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <!--<label>Identification completed people only</label>-->
+                <input data-labelauty="Advertisement visible to all|Advertisement visible to identified people only" type="checkbox" th:field="*{identifiedPeopleOnly}" th:value="${{identifiedPeopleOnly}}" class="">
+                <p th:if="${#fields.hasErrors('identifiedPeopleOnly')}" class="label label-danger"
+                   th:errors="*{identifiedPeopleOnly}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.advertise.identity.info}"></span>
+        </div>
+
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-12"><label th:utext="#{Advertise.label.payment.instruction}"></label></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <textarea class="form-control cleditor" type="text" th:field="*{paymentInstructions}"
+                          placeholder="Payment Instructions"></textarea>
+                <p th:if="${#fields.hasErrors('paymentInstructions')}" class="label label-danger"
+                   th:errors="*{paymentInstructions}">
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <br><span
+                class="text text-muted" th:utext="#{Advertise.label.payment.instruction}"></span>
+        </div>
+
+
+        <div class="col-md-12"><br></div>
+        <div class="col-md-12"><label th:utext="#{Advertise.label.terms.trade}"></label></div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <!--<label>Terms of Trade</label><br/>-->
+                <textarea class="cleditor form-control" type="text" th:field="*{termsOfTrade}"></textarea>
+                <p th:if="${#fields.hasErrors('termsOfTrade')}" class="label label-danger"
+                   th:errors="*{termsOfTrade}">
+                </p>
+            </div>
+        </div>
+
+
+        <!--<div class="col-md-6">
+            <br><span
+                class="text text-muted">Terms and Conditions for trade</span>
+        </div>-->
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-warning" name="btc_post_ad" th:utext="#{Advertise.label.submit}"></button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(":checkbox").labelauty();
+            $(":radio").labelauty();
+        });
+    </script>
+
+</form>
+
+

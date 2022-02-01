@@ -1,0 +1,123 @@
+<!--
+  ~ Copyright (c) 16/3/18 2:56 PM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <div th:fragment="htmlheaderbase">
+        <div class="row">
+            <!-- Header Image Or May be Slider-->
+            <div class="top_header">
+                <nav class="navbar navbar-fixed-top" id="navbar-top-header-main">
+
+                    <div class="container">
+                        <div class="logo">
+                            <a th:href="@{/}">
+                                <img th:src="@{/resources/assets/images/crypkartfulllogo.png}" alt="logo"/>
+                            </a>
+                        </div>
+
+                        <div sec:authorize="isAuthenticated()" class="logins" style="position:inherit;">
+
+                            <a th:href="@{/logout}" class="login top-icon" title="Logout">
+                                <i class="fa fa-sign-out"></i>
+                            </a>
+                            <!--<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a th:href="@{/admin/user/list}" class="login top-icon" title="Admin Panel">
+                                    <i class="fa fa-user"></i>
+                                </a>
+                            </th:block>-->
+                            <a th:href="@{/wallet/home}" class="login top-icon" title="Your Wallet">
+                                <i class=" fa fa-bitcoin"></i>
+                            </a>
+                            <!--<a th:href="@{/advertise/form}" class="login  top-icon">-->
+                                <!--<i class="fa" style="font-family: 'Lato Medium';"-->
+                                   <!--th:text="${@localeHelper.getTemplateProperties('header.top.right.menu.post.add',null ,'Post Ad')}"></i>-->
+                            <!--</a>-->
+                            <a class="login top-icon no-loading" href="javascript:void(0);">
+                                <i class="fa"
+                                   th:text="${'Balance : '+ T(com.gradle.util.Common).formateBitcoinAmount(@serviceUtil.getCurrentUserBalance().toString())}"></i>
+                            </a>
+                        </div>
+                        <div sec:authorize="!isAuthenticated()" class="logins" style="position:inherit;">
+                            <!--<a th:href="@{/wallet/key}" class="login top-icon" title="Generate key">
+                                <i class=" fa fa-key"></i>
+                            </a>-->
+
+                          <!--  <a th:href="@{/login}" class="login top-icon" title="Login / Register">
+                                <i class="fa fa-user"></i>
+                            </a>
+-->
+                            <!--chnage by ashish no need to show this button here because it is now a part of header menu-->
+
+                            <a th:href="@{/login}" class="login  top-icon">
+                                <i class="fa" style="font-family: 'Lato Medium';"
+                                   th:text="${@localeHelper.getTemplateProperties('headerbase.label.loginsignup',null ,'Post Ad')}"></i>
+                            </a>
+
+
+                        </div>
+
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse top-main-menu" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li style="border-left:1px solid lightgray;">
+                                    <a th:href="@{/advertise/buy}"
+                                       th:utext="#{Layout.headerbase.label.buy.bitcoin}"></a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/advertise/sell}"
+                                       th:utext="#{Layout.headerbase.label.sell.bitcoin}"></a>
+                                </li>
+
+                                <li sec:authorize="!isAuthenticated()">
+                                    <a th:href="@{'/login?page=postad'}"
+                                       th:text="#{header.top.right.menu.post.add}"></a>
+                                </li>
+                                <li sec:authorize="isAuthenticated()">
+                                    <a th:href="@{/advertise/form}"
+                                       th:text="#{header.top.right.menu.post.add}"></a>
+                                </li>
+
+                                <li>
+                                    <a th:href="@{/email}"
+                                       th:utext="#{Layout.headerbase.label.contact}"></a>
+                                </li>
+
+
+
+
+
+
+
+                                <!--<?php if(checkSession()) { ?>
+                                <li class="mobile-menu"><a href="account/wallet"><?php echo $lang['menu_wallet']; ?></a></li>
+                                <li class="mobile-menu"><a href="logout"><?php echo $lang['menu_logout']; ?></a></li>
+                                <?php } else { ?>
+                                <li class="mobile-menu"><a href="post-ad"><?php echo $lang['post_ad']; ?></a></li>
+                                <li class="mobile-menu"><a href="login"><?php echo $lang['login']; ?> / <?php echo $lang['register']; ?></a></li>
+                                <?php } ?>-->
+                            </ul>
+                        </div><!-- navbar-collapse -->
+                    </div>
+
+                    <!-- container-fluid -->
+                </nav>
+
+            </div>
+        </div>
+    </div>

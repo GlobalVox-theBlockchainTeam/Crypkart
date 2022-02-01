@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<div class="container-fluid page-title" th:fragment="pagetitle">
+    <div class="row blue-banner">
+        <div class="container main-container">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h3 class="white-heading"><div th:text="${@localeHelper.getTitle(null, defaultPageTitle)}">(title)</div></h3>
+            </div>
+        </div>
+    </div>
+</div>

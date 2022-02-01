@@ -1,0 +1,49 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:include="layout :: htmlhead" ></head>
+
+<body>
+<div th:replace="layout :: navbar">(navbar)</div>
+
+
+<div class="container">
+    <div th:replace="layout :: global-messages">(global-messages)</div>
+
+    <div class="starter-template">
+        <h1>Spring MVC / Thymeleaf / Bootstrap</h1>
+        <div class="">
+            <form action="#" th:action="@{/login}" th:object="${user}" method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" th:field="*{username}" placeholder="User name"/>
+                    <p th:if="${#fields.hasErrors('username')}" class="label label-danger" th:errors="*{username}">
+                    </p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" th:field="*{password}" placeholder="Password"/>
+                    <p th:if="${#fields.hasErrors('password')}" class="label label-danger" th:errors="*{password}">
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" th:utext="#{login.login.button}"></button> &nbsp;<a th:href="@{/registration}"><button type="button" class="btn btn-warning" th:utext="#{login.rightbox.button.title}"></button></a>
+
+                </div>
+                <div class="form-group">
+                    <div class="g-recaptcha" data-sitekey="6Ld2Gr8SAAAAABV6gZ_0ZxRS2UggoKgamLJrxleJ"></div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div th:include="layout :: footer" id="footer">(footer)</div>
+
+</body>
+</html>

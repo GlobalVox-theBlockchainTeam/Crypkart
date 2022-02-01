@@ -1,0 +1,29 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<div class="navbar-collapse collapse templatemo-sidebar" th:fragment="adminmenu">
+    <ul class="templatemo-sidebar-menu">
+
+        <li><a th:href="@{/admin/user/list}"><i class="fa fa-dashboard"></i> Users</a></li>
+        <li><a th:href="@{/admin/pay/list}"><i class="fa fa-credit-card"></i> Payment Type</a></li>
+        <li><a th:href="@{/admin/cms/list}"><i class="fa fa-file-o"></i> CMS Pages</a></li>
+        <li><a th:href="@{/admin/wallet/}"><i class="fa fa-google-wallet"></i> Wallet Test</a></li>
+        <li><a th:href="@{/admin/config/list}"><i class="fa fa-cog"></i> Configurations</a></li>
+        <!--<li><a href="./"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a href="./?a=advertisements"><i class="fa fa-globe"></i> Advertisements</a></li>
+        <li><a href="./?a=trades"><i class="fa fa-exchange"></i> Trades</a></li>
+        <li><a href="./?a=reports"><i class="fa fa-comment-o"></i> Reports</a></li>
+        <li><a href="./?a=transactions"><i class="fa fa-credit-card"></i> Transactions</a></li>
+        <li><a href="./?a=api_keys"><i class="fa fa-database"></i> Block.io API Keys</a></li>
+        <li><a href="./?a=users"><i class="fa fa-users"></i> Users</a></li>
+        <li><a href="./?a=pages"><i class="fa fa-folder-o"></i> Pages</a></li>
+        <li><a href="./?a=faq"><i class="fa fa-question-circle"></i> FAQ</a></li>
+        <li><a href="./?a=settings"><i class="fa fa-cogs"></i> Web Settings</a></li>-->
+        <li><a th:href="@{/home}"><i class="fa fa-arrow-left"></i> Back To Front</a></li>
+        <li><a th:href="@{/logout}"><i class="fa fa-sign-out"></i> Logout</a></li>
+    </ul>
+</div>

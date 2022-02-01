@@ -1,0 +1,25 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<div class="col-md-4" th:fragment="walletLeft">
+
+    <div class="list-group">
+        <a th:href="@{/wallet/create}" class="list-group-item"><i class=" fa fa-google-wallet"></i> Create
+            Wallet</a>
+        <a th:href="@{/wallet/refresh}" class="list-group-item "><i class="fa fa-bitcoin"></i> Refresh
+            Wallet</a>
+        <a th:href="@{/wallet/home}" class="list-group-item active"><i class="fa fa-bitcoin"></i> Wallet</a>
+        <a href="account/transactions" class="list-group-item"><i class="fa fa-exchange"></i> Transactions</a>
+        <a th:href="@{/advertise/list}" class="list-group-item"><i class="fa fa-globe"></i> Advertisements</a>
+        <a href="account/trades" class="list-group-item"><i class="fa fa-refresh"></i> Trades</a>
+        <a href="account/settings" class="list-group-item"><i class="fa fa-cogs"></i> Settings</a>
+
+        <a href="account/verification" class="list-group-item"><i class="fa fa-check"></i> Verification</a>
+    </div>
+
+</div>

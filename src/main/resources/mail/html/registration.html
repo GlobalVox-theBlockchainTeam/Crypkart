@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sending Email with Thymeleaf HTML Template Example</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <link href="http://195.201.133.222:8888/resources/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <!-- use the font -->
+    <style>
+        body {
+            font-family: Roboto, "Open Sans";
+            font-size: 48px;
+        }
+
+        .mailicon {
+            position: absolute;
+            margin-top: -80px;
+        }
+
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-family: Roboto">
+<div style="width: 800px; margin:auto;">
+    <div style="margin:auto;font-family: Roboto">
+        <table width="100%" style="border: none;border-collapse: collapse;">
+            <tr style="background: #605577;">
+                <td width="50%">
+                    <img class="mailicon" th:src="${baseUrl}+'/resources/assets/images/mailicon.png'"
+                         style="position: absolute;width: 17%;margin-top: -80px;"/>
+                </td>
+                <td width="50%"
+                    style="    text-align: right;padding: 0px;vertical-align: middle;font-size: 40px;color: white;">
+                    <h4 style="font-family: sans-serif;padding: 10px 0;margin: 0;margin-right: 40px;">CrypKart</h4>
+                </td>
+            </tr>
+        </table>
+        <div style="width:100%; background: white;">
+            <div style="text-align: center; width: 100%;margin-top:50px;margin-bottom:50px; font-size: 45px;color:#605577;">
+                <h3>Email Verification</h3>
+            </div>
+            <div style="font-family: Roboto; font-size:20px;text-align: center">
+                <div style="color:#605577;text-transform: capitalize;" th:text="${'Hi ' + name + ','}"></div>
+                <div>You are only one step from being able to login to our website!.</div>
+                <div>Simply click on the big green button below to confirm your account.</div>
+
+            </div>
+            <div style="margin-top:50px;text-align: center;">
+                <a th:href="${baseUrl}+'/user/registration/email/verification?token='+${verificationToken}"
+                   style="text-decoration:none;padding: 15px 25px;color: white;background: green;font-size: 25px;border-radius: 5px;">Verify
+                    Email Address</a>
+            </div>
+            <div style="margin-top:50px;">
+                <div style="background: #605577;height:5px;"></div>
+            </div>
+            <div style="margin-top: 25px;margin-bottom:10px;text-align: center;font-size: 20px;text-transform: lowercase;">
+                Stay in touch
+            </div>
+            <div style="text-align: center">
+                <div style="width:50%; margin:auto;">
+                    <img th:src="${baseUrl}+'/resources/assets/icons/linkedin.png'" width="15%">
+                    <img th:src="${baseUrl}+'/resources/assets/icons/facebook.png'" width="15%">
+                    <img th:src="${baseUrl}+'/resources/assets/icons/insta.png'" width="15%">
+                    <img th:src="${baseUrl}+'/resources/assets/icons/youtube.png'" width="15%">
+                </div>
+            </div>
+            <div style=" text-align: center;">
+                Email sent by CryptKart
+                <br/>
+                Copyright @2018 Cryptkart.com
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

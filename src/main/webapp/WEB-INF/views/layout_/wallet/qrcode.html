@@ -1,0 +1,18 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<div class="panel panel-default" th:fragment="barcode">
+    <div class="panel-body">
+        <h4><?php echo $lang['deposit_receive_bitcoins']; ?></h4>
+        <p><?php echo $lang['d_r_bitcoins']; ?></p>
+        <center>
+            <img th:src="'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl='+ ${currentWaddress}+'&choe=UTF-8'" title="Click to copy address" th:onclick="'Copy_Address();'" />
+            <span th:text="${currentWaddress}"></span>
+        </center>
+    </div>
+</div>

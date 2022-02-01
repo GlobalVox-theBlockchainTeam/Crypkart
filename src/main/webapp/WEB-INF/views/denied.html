@@ -1,0 +1,46 @@
+<!--
+  ~ Copyright (c) 5/3/18 11:15 AM Bitwise Ventures
+  ~ Author : Anand Panchal
+  ~ Author Email : anand4686@gmail.com
+  -->
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:include="layout/header :: htmlheadbase" th:with="title='Access Denied'"></head>
+<body class="joblist style2  style3 title-image">
+<div th:include="layout/headerbase :: htmlheaderbase" th:id="header" class="container-fluid pages"></div>
+<!-- if(checkSession()) { $redirect = $settings['url']."account/wallet"; header("Location:$redirect"); } -->
+<div class="container-fluid page-title">
+    <div class="row blue-banner">
+        <div class="container main-container">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <!--<div th:replace="layout/layoutbase :: global-messages">(global-messages)</div>-->
+                <div th:replace="layout/globalmessages :: global-messages">(global-messages)</div>
+                <h3 class="white-heading" th:text="${@localeHelper.getTemplateProperties('access.denied.page.title',null ,'Access Denied')}">
+
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid white-bg">
+    <div class="row">
+        <div class="container">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="content">
+                    <div class="row">
+                        <div  class="col-md-12" th:text="${@localeHelper.getTemplateProperties('access.denied.page.content',null ,'You are not authorized to visit this page.')}">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:include="layout/footer :: htmlfooterbase" class="container-fluid footer"></div>
+<div th:include="layout/footerbase :: htmllastfooterbase" class="container-fluid footer last-footer "></div>
+<div th:include="layout/layoutbase :: scriptincludebase"></div>
+
+</body>
